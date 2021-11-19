@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>YOUR TITLE HERE</title>
-  <meta name="description" content="YOUR TITLE HERE" />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <title>Exploratory Data Analysis and Visualization on Natural Disaster Dataset</title>
+  <meta name="description" content="Exploratory Data Analysis and Visualization on Natural Disaster Dataset" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="YOUR TITLE HERE" />
+  <meta property="og:title" content="Exploratory Data Analysis and Visualization on Natural Disaster Dataset" />
   <meta property="og:type" content="book" />
   
   
@@ -16,15 +16,15 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="YOUR TITLE HERE" />
+  <meta name="twitter:title" content="Exploratory Data Analysis and Visualization on Natural Disaster Dataset" />
   
   
   
 
-<meta name="author" content="YOUR NAMES HERE" />
+<meta name="author" content="Yihao Gao" />
 
 
-<meta name="date" content="2020-11-09" />
+<meta name="date" content="2021-11-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,9 @@
   
 
 <link rel="next" href="data-sources.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,8 +51,9 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
 
 
@@ -68,7 +70,7 @@
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">SHORT TITLE HERE</a></li>
+<li><a href="./">Natural Disaster Edav Project</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
@@ -89,7 +91,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">YOUR TITLE HERE</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Exploratory Data Analysis and Visualization on Natural Disaster Dataset</a>
           </h1>
         </div>
 
@@ -98,12 +100,23 @@
 
             <section class="normal" id="section-">
 <div id="header">
-<h1 class="title">YOUR TITLE HERE</h1>
-<p class="author"><em>YOUR NAMES HERE</em></p>
-<p class="date"><em>2020-11-09</em></p>
+<h1 class="title">Exploratory Data Analysis and Visualization on Natural Disaster Dataset</h1>
+<p class="author"><em>Yihao Gao</em></p>
+<p class="date"><em>2021-11-19</em></p>
 </div>
 <div id="introduction" class="section level1" number="1">
 <h1><span class="header-section-number">Chapter 1</span> Introduction</h1>
+<p>Given that many unprecedented natural disasters like violent flood and storm are happening more frequently than ever and causing a lot of losses, injuries, and even deaths in recent years, we propose the following questions to help study the possible pattern of the occurrence and consequences aiming to provide some insights for preparation and assessment of natural disasters:</p>
+<ol style="list-style-type: decimal">
+<li>What are the patterns of occurrence for the most frequently happening disasters by region?</li>
+<li>Over time, how do the patterns change and how do they help people prepare for future disasters?</li>
+<li>How to define the level of damage for a disaster and could we give an assessment of the vulnerability of different regions against disasters?</li>
+</ol>
+<p>Data Source :The dataset we chose is from EM-DAT The International Disaster Database at <a href="https://public.emdat.be/data" class="uri">https://public.emdat.be/data</a>.</p>
+<p>EM-DAT (Emergency Event Database) was created with the initial support of the World Health Organisation (WHO) and the Belgian Government. It contains essential core data on the occurrence and effects of over 22,000 mass disasters in the world from 1900 to the present day. The database is compiled from various sources, including UN agencies, non-governmental organisations, insurance companies, research institutes and press agencies.To narrow down the range of the data for the use of this project, we selected natural disaster data from all five continents, dating between 1990 to 2020.</p>
+<p>How the data helps us study the questions:
+Each entry in the dataset represents one instance of natural disaster. There are three levels in the dataset. First level ‘Disaster event’ contains details about the categorization of the disaster, and second level ‘Countries’ gives information about region and occurrence time of it. Using these two levels, we could find out the most common disaster types and occurrence patterns in different regions by aggregating data on different sublevels. By analyzing the occurrence over the thirty-year timeline, we are able to conclude how the patterns might have changed.
+The third level ‘Source of information’ tracks the source and its reliability, as well as provides statistics concerning the consequences of the disasters on several scales including human impact, economic impact, and infrastructural impact. Based on these impact statistics, we could define a reasonable scale of damage of a disaster. By applying this scale to different regions, we are able to estimate the vulnerability for that region, and this could help people prioritize and allocate resources to prepare for future disasters.</p>
 
 </div>
             </section>
@@ -116,7 +129,6 @@
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -135,6 +147,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -143,7 +156,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/edit/main/index.Rmd",
+"link": "https://github.com/yiiihao/natural_disaster/edit/main/index.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -151,10 +164,14 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/blob/main/index.Rmd",
+"link": "https://github.com/yiiihao/natural_disaster/blob/main/index.Rmd",
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }

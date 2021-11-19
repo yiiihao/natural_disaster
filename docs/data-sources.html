@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 2 Data sources | YOUR TITLE HERE</title>
-  <meta name="description" content="Chapter 2 Data sources | YOUR TITLE HERE" />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <title>Chapter 2 Data sources | Exploratory Data Analysis and Visualization on Natural Disaster Dataset</title>
+  <meta name="description" content="Chapter 2 Data sources | Exploratory Data Analysis and Visualization on Natural Disaster Dataset" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 2 Data sources | YOUR TITLE HERE" />
+  <meta property="og:title" content="Chapter 2 Data sources | Exploratory Data Analysis and Visualization on Natural Disaster Dataset" />
   <meta property="og:type" content="book" />
   
   
@@ -16,15 +16,15 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 2 Data sources | YOUR TITLE HERE" />
+  <meta name="twitter:title" content="Chapter 2 Data sources | Exploratory Data Analysis and Visualization on Natural Disaster Dataset" />
   
   
   
 
-<meta name="author" content="YOUR NAMES HERE" />
+<meta name="author" content="Yihao Gao" />
 
 
-<meta name="date" content="2020-11-09" />
+<meta name="date" content="2021-11-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,9 @@
   
 <link rel="prev" href="index.html"/>
 <link rel="next" href="data-transformation.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,8 +51,9 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
 
 
@@ -68,7 +70,7 @@
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">SHORT TITLE HERE</a></li>
+<li><a href="./">Natural Disaster Edav Project</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
@@ -89,7 +91,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">YOUR TITLE HERE</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Exploratory Data Analysis and Visualization on Natural Disaster Dataset</a>
           </h1>
         </div>
 
@@ -99,6 +101,159 @@
             <section class="normal" id="section-">
 <div id="data-sources" class="section level1" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Data sources</h1>
+<p>Query the natural disaster data from <a href="https://public.emdat.be/data" class="uri">https://public.emdat.be/data</a>. Here, we select natural disaster in all locations provided between time range 1990 to 2020. When reading the excel file, we skip the first 6 title lines and assign the column names accordingly. The raw data has 50 attributes and 11618 rows in total.</p>
+<pre><code>## [1] 11618    50</code></pre>
+<p>Here is a brief introduction to the attributes of the data set copied from the source website. The attributes discussed below do not match completely with the raw data we get but covered the majority. For simplicity, some detailed information was deleted and can be accessed at <a href="https://public.emdat.be/about" class="uri">https://public.emdat.be/about</a>.</p>
+<table style="width:92%;">
+<colgroup>
+<col width="91%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td align="left">Level 1 – Disaster event</td>
+</tr>
+<tr class="even">
+<td align="left">Disaster Number: A unique 8 digit disaster number is generated for each disaster event.</td>
+</tr>
+<tr class="odd">
+<td align="left">Disaster group: Two main groups of disasters are distinguished in EM-DAT: natural disasters and technological disasters.</td>
+</tr>
+<tr class="even">
+<td align="left">Disaster sub-group: The natural disaster category is divided into 6 sub-groups: Biological, Geophysical, Climatological, Hydrological, Meteorological and Extra-terrestrial disasters.</td>
+</tr>
+<tr class="odd">
+<td align="left">Disaster type: 1 main disaster type is identified per event.</td>
+</tr>
+<tr class="even">
+<td align="left">Disaster sub-type: Subdivision related to the disaster type.</td>
+</tr>
+<tr class="odd">
+<td align="left">Disaster sub-sub-type: Any appropriate sub-division of the disaster sub-type (not applicable for all disaster sub-types).</td>
+</tr>
+<tr class="even">
+<td align="left">Event name: Any specification related to the disaster which allow its identification (i.e. “Mitch” for the name of storm, “Boeing 707” for the type of plane in an air crash, name of the diseases such as “Cholera” for an epidemic, “Etna” for the name of the volcano, etc.)</td>
+</tr>
+<tr class="odd">
+<td align="left">Glide Number: The GLobal IDEntifier number (GLIDE; further information available on www.glidenumber.net) is a globally common Unique ID code for disasters intended to facilitate linkages between records in diverse disaster databases and disaster exchange information websites such as ReliefWeb.</td>
+</tr>
+<tr class="even">
+<td align="left">DFO/GVP/USGS: This field is used to link the EMDAT disaster with the ones of other databases: Dartmouth Flood Observatory, Global Volcanism Program, USGS.</td>
+</tr>
+<tr class="odd">
+<td align="left">Level 2 – Country (ies)
+Geographical information
+Country: The country in which the disaster has occurred or had an impact.</td>
+</tr>
+<tr class="even">
+<td align="left">ISO Code: The International Organization for Standardization attributes a 3-letter code to each country. CRED uses the ISO 3166 (www.iso.org). This field is automatically linked to the country.</td>
+</tr>
+<tr class="odd">
+<td align="left">Region: The region to which the country belongs. This field is automatically linked to the country. CRED use the UN regional division (see at unstats.un.org)</td>
+</tr>
+<tr class="even">
+<td align="left">Continent: The continent to which the country belongs. This field is automatically linked to the country.</td>
+</tr>
+<tr class="odd">
+<td align="left">River basin: Name of the river basins of the affected area (used usually for flood event).</td>
+</tr>
+<tr class="even">
+<td align="left">Epicenter: Information on the location of the epicenter of an earthquake. E.g. 30 km SW of Naples</td>
+</tr>
+<tr class="odd">
+<td align="left">Latitude: North-South coordinates; when available (used for earthquakes, volcanoes and floods)</td>
+</tr>
+<tr class="even">
+<td align="left">Longitude: East-West coordinates; when available (used for earthquakes, volcanoes and floods)</td>
+</tr>
+<tr class="odd">
+<td align="left">Location: Geographical specification (e.g. name of a city, village, department, province, state, or district).</td>
+</tr>
+<tr class="even">
+<td align="left">Temporal information</td>
+</tr>
+<tr class="odd">
+<td align="left">Start day/month/year: The date when the disaster occurred.</td>
+</tr>
+<tr class="even">
+<td align="left">End day/month/year: The date when the disaster ended.</td>
+</tr>
+<tr class="odd">
+<td align="left">Local time: The local time when the disaster occurred (given for sudden disasters like earthquakes and volcanoes).</td>
+</tr>
+<tr class="even">
+<td align="left">Physical characteristics
+Origin: The triggering origin of the disaster (i.e. Heavy rains for a flood, drought for a forest fire).</td>
+</tr>
+<tr class="odd">
+<td align="left">Associated disasters 1 and 2: The secondary and /or associated effects or consequences of a primary event (i.e. Landslide for a flood, explosion after an earthquake, etc …)</td>
+</tr>
+<tr class="even">
+<td align="left">Disaster magnitude scale and value: The “intensity “of a specific disaster (the unit is automatically linked to the disaster type)</td>
+</tr>
+<tr class="odd">
+<td align="left">Status
+Aid contribution: The total amount (given in 000’US$ current value, i.e. value at the time of the report) of contribution for immediate relief activities given to the country as a response to the disaster.</td>
+</tr>
+<tr class="even">
+<td align="left">OFDA response: Whether or not OFDA responded to the disaster.</td>
+</tr>
+<tr class="odd">
+<td align="left">Appeal for international assistance + date: Was there any request for an international assistance from the affected country(ies) and when was it requested.</td>
+</tr>
+<tr class="even">
+<td align="left">Declaration of disaster + date: Was there a state of emergency declared in the country(ies) and when was it declared.</td>
+</tr>
+<tr class="odd">
+<td align="left">Level 3 – Source of information</td>
+</tr>
+<tr class="even">
+<td align="left">Reporting date: Latest reporting date of the source</td>
+</tr>
+<tr class="odd">
+<td align="left">Reliability score (1/5): A reliability score going ranking from (1) very low - to (5) very high, has been established in order to ensure the quality of the data</td>
+</tr>
+<tr class="even">
+<td align="left">Human impact
+Deaths: Number of people who lost their life because the event happened.</td>
+</tr>
+<tr class="odd">
+<td align="left">Missing: The number of people whose whereabouts since the disaster are unknown, and presumed dead based on official figures.</td>
+</tr>
+<tr class="even">
+<td align="left">Total deaths: deaths + missing people</td>
+</tr>
+<tr class="odd">
+<td align="left">Injured: People suffering from physical injuries, trauma, or an illness requiring immediate medical assistance as a direct result of a disaster.</td>
+</tr>
+<tr class="even">
+<td align="left">Affected: People requiring immediate assistance during an emergency situation.</td>
+</tr>
+<tr class="odd">
+<td align="left">Homeless: Number of people whose house is destroyed or heavily damaged and therefore need shelter after an event.</td>
+</tr>
+<tr class="even">
+<td align="left">Total affected: The total affected is the sum of injured, affected and homeless</td>
+</tr>
+<tr class="odd">
+<td align="left">Economic impact
+Total estimated damages (in 000’US$ current value): A value of all damages and economic losses directly or indirectly related to the disaster.</td>
+</tr>
+<tr class="even">
+<td align="left">Reconstruction cost (in 000’US$ current value): These costs are for the replacement of lost assets. Reconstruction costs are different than total damages as they must take into account present construction or purchase costs of goods, as well as the additional cost of prevention and mitigation measures to reduce damage from future disasters.</td>
+</tr>
+<tr class="odd">
+<td align="left">Insured losses (in 000’US$ current value): Economic damages which are covered by the insurance companies.</td>
+</tr>
+<tr class="even">
+<td align="left">Sectorial impact
+Check box specifying the different sectors affected by the disaster: Animals, Industry, Electricity, Water supply/sanitation, Communications, Cultural infrastructure, Transportation, Other (+ specifications of what “other” means).</td>
+</tr>
+<tr class="odd">
+<td align="left">Infrastructural impact
+The infrastructure that was damaged or destroyed by the disaster, given in absolute values or percentages: Houses (number), Bridges (number), Commercial/business (number), Roads (km), Rails (km), Education (number of schools), Health (numbers of health centers/hospitals), Forest (ha), Farmland/crops (ha)</td>
+</tr>
+</tbody>
+</table>
 
 </div>
             </section>
@@ -111,7 +266,6 @@
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -130,6 +284,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -138,7 +293,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/edit/main/02-data.Rmd",
+"link": "https://github.com/yiiihao/natural_disaster/edit/main/02-data.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -146,10 +301,14 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/blob/main/02-data.Rmd",
+"link": "https://github.com/yiiihao/natural_disaster/blob/main/02-data.Rmd",
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }

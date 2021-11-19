@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Chapter 3 Data transformation | YOUR TITLE HERE</title>
-  <meta name="description" content="Chapter 3 Data transformation | YOUR TITLE HERE" />
-  <meta name="generator" content="bookdown 0.20 and GitBook 2.6.7" />
+  <title>Chapter 3 Data transformation | Exploratory Data Analysis and Visualization on Natural Disaster Dataset</title>
+  <meta name="description" content="Chapter 3 Data transformation | Exploratory Data Analysis and Visualization on Natural Disaster Dataset" />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Chapter 3 Data transformation | YOUR TITLE HERE" />
+  <meta property="og:title" content="Chapter 3 Data transformation | Exploratory Data Analysis and Visualization on Natural Disaster Dataset" />
   <meta property="og:type" content="book" />
   
   
@@ -16,15 +16,15 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Chapter 3 Data transformation | YOUR TITLE HERE" />
+  <meta name="twitter:title" content="Chapter 3 Data transformation | Exploratory Data Analysis and Visualization on Natural Disaster Dataset" />
   
   
   
 
-<meta name="author" content="YOUR NAMES HERE" />
+<meta name="author" content="Yihao Gao" />
 
 
-<meta name="date" content="2020-11-09" />
+<meta name="date" content="2021-11-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -33,8 +33,9 @@
   
 <link rel="prev" href="data-sources.html"/>
 <link rel="next" href="missing-values.html"/>
-<script src="libs/header-attrs-2.3/header-attrs.js"></script>
-<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<script src="libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
@@ -50,8 +51,9 @@
 
 
 
+<link href="libs/anchor-sections-1.0.1/anchor-sections.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.0.1/anchor-sections.js"></script>
 
-<script src="libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
 
 
@@ -68,7 +70,7 @@
       <nav role="navigation">
 
 <ul class="summary">
-<li><a href="./">SHORT TITLE HERE</a></li>
+<li><a href="./">Natural Disaster Edav Project</a></li>
 
 <li class="divider"></li>
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
@@ -89,7 +91,7 @@
       <div class="body-inner">
         <div class="book-header" role="navigation">
           <h1>
-            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">YOUR TITLE HERE</a>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Exploratory Data Analysis and Visualization on Natural Disaster Dataset</a>
           </h1>
         </div>
 
@@ -99,6 +101,48 @@
             <section class="normal" id="section-">
 <div id="data-transformation" class="section level1" number="3">
 <h1><span class="header-section-number">Chapter 3</span> Data transformation</h1>
+<p>Based on information about the attributes from the last chapter and the selected questions we want to study for this project, we did an initial filtering of the attributes in the data set.</p>
+<p>First we calculate see the top ten attributes with highest missing percentage.</p>
+<pre><code>##                          columns     count
+## 1           Reconstruction_Costs 0.9973317
+## 2  Reconstruction_Costs_Adjusted 0.9973317
+## 3                     Local_Time 0.9548115
+## 4                Associated_Dis2 0.9434498
+## 5                            Aid 0.9418144
+## 6                     Subsubtype 0.9240833
+## 7                       Response 0.9184025
+## 8                Insured_Damages 0.9116027
+## 9       Insured_Damages_Adjusted 0.9116027
+## 10                   River_Basin 0.8926666
+## 11                         Glide 0.8681357
+## 12                   No_Homeless 0.8436908
+## 13                      Latitude 0.8247547
+## 14                     Longitude 0.8244104
+## 15                        Appeal 0.8124462
+## 16                   Declaration 0.7562403
+## 17                Associated_Dis 0.7443622
+## 18                    No_Injured 0.7431572
+## 19                          Name 0.7429850
+## 20                        Origin 0.6895335
+## 21                   Admin2_Code 0.6657772
+## 22                 Total_Damages 0.6637976
+## 23        Total_Damages_Adjusted 0.6637976
+## 24                      DM_Value 0.6507144
+## 25                   Admin1_Code 0.6127561
+## 26                   No_Affected 0.3775176
+## 27                     Adm_Level 0.3363746
+## 28                 Geo_Locations 0.3363746
+## 29                  Total_Deaths 0.2898089
+## 30                Total_Affected 0.2192288</code></pre>
+<p>Below lists the ten attributes we deleted and the main reason we deleted them. Note that we categorize according to the main concern since there may be multiple reasons for one attribute.</p>
+<p>Attributes not interested in studying:
+Name,Local_Time,River_Basin,Group,Location
+Attributes with very high missing percentage:<br />
+Reconstruction_Costs,Reconstruction_Costs_Adjusted
+Attributes that has similar information contained elsewhere or those with no clear explanation documented :
+Adm_Level,Admin1_Code,Admin2_Code,Geo_Locations,Latitude,Longitude</p>
+<pre><code>## [1] 11618    38</code></pre>
+<p>After this initial filtering, we have 38 columns left. As we progress further, we will look into the attributes more in detail and select the most interesting attributes to study for this project.</p>
 
 </div>
             </section>
@@ -111,7 +155,6 @@
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
-<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
 <script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
@@ -130,6 +173,7 @@ gitbook.start({
 "weibo": false,
 "instapaper": false,
 "vk": false,
+"whatsapp": false,
 "all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
 },
 "fontsettings": {
@@ -138,7 +182,7 @@ gitbook.start({
 "size": 2
 },
 "edit": {
-"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/edit/main/03-cleaning.Rmd",
+"link": "https://github.com/yiiihao/natural_disaster/edit/main/03-cleaning.Rmd",
 "text": "Edit"
 },
 "history": {
@@ -146,10 +190,14 @@ gitbook.start({
 "text": null
 },
 "view": {
-"link": "https://github.com/YOUR GITHUB USERNAME/YOUR REPO NAME/blob/main/03-cleaning.Rmd",
+"link": "https://github.com/yiiihao/natural_disaster/blob/main/03-cleaning.Rmd",
 "text": null
 },
 "download": null,
+"search": {
+"engine": "fuse",
+"options": null
+},
 "toc": {
 "collapse": "subsection"
 }
