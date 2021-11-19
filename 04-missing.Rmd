@@ -1,1 +1,15 @@
 # Missing values
+
+####First draft 1018
+
+Import function plot_patterns(df, percent = TRUE) from the .R file.
+```{r, include=FALSE}
+source("missing_patterns.R", local = knitr::knit_global())
+```
+
+Examine the missing values on a subset of the data set. Select the 
+```{r}
+testtest <- natural[,c(2:13)]
+testtest
+plot_patterns(testtest, percent = TRUE)
+```

@@ -1,2 +1,124 @@
 # Data sources
 
+Query the natural disaster data from https://public.emdat.be/data. Here, we select natural disaster in all locations provided between time range 1990 to 2020. When reading the excel file, we skip the first 6 title lines and assign the column names accordingly. The raw data has 50 attributes and 11618 rows in total. 
+```{r}
+library(readxl)
+col_name <- c("No",	"Year",	"Seq",	"Glide",	"Group",	"Subgroup",	 "Type", "Subtype",	"Subsubtype",	"Name",	"Country", "ISO",	"Region", "Continent",	"Location",	"Origin",	"Associated_Dis",	"Associated_Dis2","Response","Appeal","Declaration",	"Aid","DM_Value","DM_Scale","Latitude","Longitude","Local_Time","River_Basin","Start_Year","Start_Month","Start_Day","End_Year", "End_Month",	"End_Day", "Total_Deaths","No_Injured",	"No_Affected",	"No_Homeless",	"Total_Affected",	"Reconstruction_Costs", "Reconstruction_Costs_Adjusted", "Insured_Damages",	"Insured_Damages_Adjusted",	"Total_Damages",	"Total_Damages_Adjusted",	"CPI",	"Adm_Level", "Admin1_Code",	"Admin2_Code",	"Geo_Locations")
+rawdata <- read_excel("natural_disaster.xlsx", skip = 6,col_names = FALSE) 
+colnames(rawdata) <- col_name
+rawdata <- rawdata[-c(1),]
+dim(rawdata) 
+View(rawdata)
+```
+
+
+Here is a brief introduction to the attributes of the data set copied from the source website. The attributes discussed below do not match completely with the raw data we get but covered the majority. For simplicity, some detailed information was deleted and can be accessed at https://public.emdat.be/about. 
+
+
+-----------------------------------------------------------------
+Level 1 – Disaster event
+
+Disaster Number: A unique 8 digit disaster number is generated for each disaster event.
+
+Disaster group: Two main groups of disasters are distinguished in EM-DAT: natural disasters and technological disasters.
+
+Disaster sub-group: The natural disaster category is divided into 6 sub-groups: Biological, Geophysical, Climatological, Hydrological, Meteorological and Extra-terrestrial disasters.
+
+Disaster type: 1 main disaster type is identified per event.
+
+Disaster sub-type: Subdivision related to the disaster type.
+
+Disaster sub-sub-type: Any appropriate sub-division of the disaster sub-type (not applicable for all disaster sub-types).
+
+Event name: Any specification related to the disaster which allow its identification (i.e. “Mitch” for the name of storm, “Boeing 707” for the type of plane in an air crash, name of the diseases such as “Cholera” for an epidemic, “Etna” for the name of the volcano, etc.)
+
+Glide Number: The GLobal IDEntifier number (GLIDE; further information available on www.glidenumber.net) is a globally common Unique ID code for disasters intended to facilitate linkages between records in diverse disaster databases and disaster exchange information websites such as ReliefWeb.
+
+DFO/GVP/USGS: This field is used to link the EMDAT disaster with the ones of other databases: Dartmouth Flood Observatory, Global Volcanism Program, USGS.
+
+-----------------------------------------------------------------
+Level 2 – Country (ies)
+Geographical information
+Country: The country in which the disaster has occurred or had an impact.
+
+ISO Code: The International Organization for Standardization attributes a 3-letter code to each country. CRED uses the ISO 3166 (www.iso.org). This field is automatically linked to the country.
+
+Region: The region to which the country belongs. This field is automatically linked to the country. CRED use the UN regional division (see at unstats.un.org)
+
+Continent: The continent to which the country belongs. This field is automatically linked to the country.
+
+River basin: Name of the river basins of the affected area (used usually for flood event).
+
+Epicenter: Information on the location of the epicenter of an earthquake. E.g. 30 km SW of Naples
+
+Latitude: North-South coordinates; when available (used for earthquakes, volcanoes and floods)
+
+Longitude: East-West coordinates; when available (used for earthquakes, volcanoes and floods)
+
+Location: Geographical specification (e.g. name of a city, village, department, province, state, or district).
+
+-----------------------------
+Temporal information
+
+Start day/month/year: The date when the disaster occurred. 
+
+End day/month/year: The date when the disaster ended. 
+
+Local time: The local time when the disaster occurred (given for sudden disasters like earthquakes and volcanoes).
+
+-----------------------------
+Physical characteristics
+Origin: The triggering origin of the disaster (i.e. Heavy rains for a flood, drought for a forest fire).
+
+Associated disasters 1 and 2: The secondary and /or associated effects or consequences of a primary event (i.e. Landslide for a flood, explosion after an earthquake, etc …)
+
+Disaster magnitude scale and value: The “intensity “of a specific disaster (the unit is automatically linked to the disaster type)
+
+-----------------------------
+Status
+Aid contribution: The total amount (given in 000'US$ current value, i.e. value at the time of the report) of contribution for immediate relief activities given to the country as a response to the disaster.
+
+OFDA response: Whether or not OFDA responded to the disaster.
+
+Appeal for international assistance + date: Was there any request for an international assistance from the affected country(ies) and when was it requested.
+
+Declaration of disaster + date: Was there a state of emergency declared in the country(ies) and when was it declared.
+
+-----------------------------------------------------------------
+
+Level 3 – Source of information
+
+Reporting date: Latest reporting date of the source
+
+Reliability score (1/5): A reliability score going ranking from (1) very low - to (5) very high, has been established in order to ensure the quality of the data
+
+-----------------------------
+Human impact
+Deaths: Number of people who lost their life because the event happened.
+
+Missing: The number of people whose whereabouts since the disaster are unknown, and presumed dead based on official figures.
+
+Total deaths: deaths + missing people
+
+Injured: People suffering from physical injuries, trauma, or an illness requiring immediate medical assistance as a direct result of a disaster.
+
+Affected: People requiring immediate assistance during an emergency situation.
+
+Homeless: Number of people whose house is destroyed or heavily damaged and therefore need shelter after an event.
+
+Total affected: The total affected is the sum of injured, affected and homeless
+
+-----------------------------
+Economic impact
+Total estimated damages (in 000'US$ current value): A value of all damages and economic losses directly or indirectly related to the disaster. 
+
+Reconstruction cost (in 000'US$ current value): These costs are for the replacement of lost assets. Reconstruction costs are different than total damages as they must take into account present construction or purchase costs of goods, as well as the additional cost of prevention and mitigation measures to reduce damage from future disasters.
+
+Insured losses (in 000'US$ current value): Economic damages which are covered by the insurance companies.
+
+-----------------------------
+Sectorial impact
+Check box specifying the different sectors affected by the disaster: Animals, Industry, Electricity, Water supply/sanitation, Communications, Cultural infrastructure, Transportation, Other (+ specifications of what “other” means).
+
+Infrastructural impact
+The infrastructure that was damaged or destroyed by the disaster, given in absolute values or percentages: Houses (number), Bridges (number), Commercial/business (number), Roads (km), Rails (km), Education (number of schools), Health (numbers of health centers/hospitals), Forest (ha), Farmland/crops (ha)
