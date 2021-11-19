@@ -101,9 +101,11 @@
             <section class="normal" id="section-">
 <div id="data-sources" class="section level1" number="2">
 <h1><span class="header-section-number">Chapter 2</span> Data sources</h1>
-<p>Query the natural disaster data from <a href="https://public.emdat.be/data" class="uri">https://public.emdat.be/data</a>. Here, we select natural disaster in all locations provided between time range 1990 to 2020. When reading the excel file, we skip the first 6 title lines and assign the column names accordingly. The raw data has 50 attributes and 11618 rows in total.</p>
+<p>The data set we chose is from EM-DAT (The International Disaster Database) at <a href="https://public.emdat.be/data" class="uri">https://public.emdat.be/data</a>.</p>
+<p><strong>EM-DAT (Emergency Event Database)</strong> was created with the initial support of the World Health Organisation (WHO) and the Belgian Government. It contains essential core data on the occurrence and effects of over 22,000 mass disasters in the world from 1900 to the present day. The database is compiled from various sources, including UN agencies, non-governmental organisations, insurance companies, research institutes and press agencies.To narrow down the range of the data for the use of this project, we selected natural disaster data from all five continents, dating between 1990 to 2020.</p>
+<p>Query the natural disaster data from source and select natural disaster in all locations provided between time range 1990 to 2020 which generates a single excel file. When reading the excel file, we skip the first 6 title lines and assign the column names accordingly. The raw data has 50 attributes and 11618 rows in total.</p>
 <pre><code>## [1] 11618    50</code></pre>
-<p>Here is a brief introduction to the attributes of the data set copied from the source website. The attributes discussed below do not match completely with the raw data we get but covered the majority. For simplicity, some detailed information was deleted and can be accessed at <a href="https://public.emdat.be/about" class="uri">https://public.emdat.be/about</a>.</p>
+<p>Here is a brief introduction to the attributes of the data set copied from the source website. The attributes discussed below do not match exactly with the raw data we get but covered the majority. For simplicity, some detailed information was deleted and can be accessed at <a href="https://public.emdat.be/about" class="uri">https://public.emdat.be/about</a>.</p>
 <table style="width:92%;">
 <colgroup>
 <col width="91%" />
@@ -131,18 +133,22 @@
 <td align="left">Disaster sub-sub-type: Any appropriate sub-division of the disaster sub-type (not applicable for all disaster sub-types).</td>
 </tr>
 <tr class="even">
-<td align="left">Event name: Any specification related to the disaster which allow its identification (i.e. “Mitch” for the name of storm, “Boeing 707” for the type of plane in an air crash, name of the diseases such as “Cholera” for an epidemic, “Etna” for the name of the volcano, etc.)</td>
+<td align="left">Event name: Any specification related to the disaster which allow its identification.</td>
 </tr>
 <tr class="odd">
-<td align="left">Glide Number: The GLobal IDEntifier number (GLIDE; further information available on www.glidenumber.net) is a globally common Unique ID code for disasters intended to facilitate linkages between records in diverse disaster databases and disaster exchange information websites such as ReliefWeb.</td>
+<td align="left">Glide Number: The GLobal IDEntifier number is a globally common Unique ID code for disasters.</td>
 </tr>
 <tr class="even">
 <td align="left">DFO/GVP/USGS: This field is used to link the EMDAT disaster with the ones of other databases: Dartmouth Flood Observatory, Global Volcanism Program, USGS.</td>
 </tr>
 <tr class="odd">
-<td align="left">Level 2 – Country (ies)
-Geographical information
-Country: The country in which the disaster has occurred or had an impact.</td>
+<td align="left">Level 2 – Country (ies)</td>
+</tr>
+<tr class="even">
+<td align="left">Geographical information</td>
+</tr>
+<tr class="odd">
+<td align="left">Country: The country in which the disaster has occurred or had an impact.</td>
 </tr>
 <tr class="even">
 <td align="left">ISO Code: The International Organization for Standardization attributes a 3-letter code to each country. CRED uses the ISO 3166 (www.iso.org). This field is automatically linked to the country.</td>
@@ -181,27 +187,25 @@ Country: The country in which the disaster has occurred or had an impact.</td>
 <td align="left">Local time: The local time when the disaster occurred (given for sudden disasters like earthquakes and volcanoes).</td>
 </tr>
 <tr class="even">
-<td align="left">Physical characteristics
-Origin: The triggering origin of the disaster (i.e. Heavy rains for a flood, drought for a forest fire).</td>
+<td align="left">Physical characteristics</td>
 </tr>
 <tr class="odd">
-<td align="left">Associated disasters 1 and 2: The secondary and /or associated effects or consequences of a primary event (i.e. Landslide for a flood, explosion after an earthquake, etc …)</td>
+<td align="left">Origin: The triggering origin of the disaster (i.e. Heavy rains for a flood, drought for a forest fire).</td>
 </tr>
 <tr class="even">
-<td align="left">Disaster magnitude scale and value: The “intensity “of a specific disaster (the unit is automatically linked to the disaster type)</td>
+<td align="left">Associated disasters 1 and 2: The secondary and /or associated effects or consequences of a primary event (i.e. Landslide for a flood, explosion after an earthquake, etc …)</td>
 </tr>
 <tr class="odd">
-<td align="left">Status
-Aid contribution: The total amount (given in 000’US$ current value, i.e. value at the time of the report) of contribution for immediate relief activities given to the country as a response to the disaster.</td>
+<td align="left">Disaster magnitude scale and value: The “intensity “of a specific disaster (the unit is automatically linked to the disaster type)</td>
+</tr>
+<tr class="even">
+<td align="left">Status</td>
+</tr>
+<tr class="odd">
+<td align="left">Aid contribution: The total amount (given in 000’US$ current value, i.e. value at the time of the report) of contribution for immediate relief activities given to the country as a response to the disaster.</td>
 </tr>
 <tr class="even">
 <td align="left">OFDA response: Whether or not OFDA responded to the disaster.</td>
-</tr>
-<tr class="odd">
-<td align="left">Appeal for international assistance + date: Was there any request for an international assistance from the affected country(ies) and when was it requested.</td>
-</tr>
-<tr class="even">
-<td align="left">Declaration of disaster + date: Was there a state of emergency declared in the country(ies) and when was it declared.</td>
 </tr>
 <tr class="odd">
 <td align="left">Level 3 – Source of information</td>
@@ -213,44 +217,46 @@ Aid contribution: The total amount (given in 000’US$ current value, i.e. valu
 <td align="left">Reliability score (1/5): A reliability score going ranking from (1) very low - to (5) very high, has been established in order to ensure the quality of the data</td>
 </tr>
 <tr class="even">
-<td align="left">Human impact
-Deaths: Number of people who lost their life because the event happened.</td>
+<td align="left">Human impact</td>
 </tr>
 <tr class="odd">
+<td align="left">Deaths: Number of people who lost their life because the event happened.</td>
+</tr>
+<tr class="even">
 <td align="left">Missing: The number of people whose whereabouts since the disaster are unknown, and presumed dead based on official figures.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Total deaths: deaths + missing people</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Injured: People suffering from physical injuries, trauma, or an illness requiring immediate medical assistance as a direct result of a disaster.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Affected: People requiring immediate assistance during an emergency situation.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left">Homeless: Number of people whose house is destroyed or heavily damaged and therefore need shelter after an event.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left">Total affected: The total affected is the sum of injured, affected and homeless</td>
 </tr>
+<tr class="even">
+<td align="left">Economic impact</td>
+</tr>
 <tr class="odd">
-<td align="left">Economic impact
-Total estimated damages (in 000’US$ current value): A value of all damages and economic losses directly or indirectly related to the disaster.</td>
+<td align="left">Total estimated damages (in 000’US$ current value): A value of all damages and economic losses directly or indirectly related to the disaster.</td>
 </tr>
 <tr class="even">
-<td align="left">Reconstruction cost (in 000’US$ current value): These costs are for the replacement of lost assets. Reconstruction costs are different than total damages as they must take into account present construction or purchase costs of goods, as well as the additional cost of prevention and mitigation measures to reduce damage from future disasters.</td>
+<td align="left">Reconstruction cost (in 000’US$ current value): These costs are for the replacement of lost assets.</td>
 </tr>
 <tr class="odd">
 <td align="left">Insured losses (in 000’US$ current value): Economic damages which are covered by the insurance companies.</td>
 </tr>
 <tr class="even">
-<td align="left">Sectorial impact
-Check box specifying the different sectors affected by the disaster: Animals, Industry, Electricity, Water supply/sanitation, Communications, Cultural infrastructure, Transportation, Other (+ specifications of what “other” means).</td>
+<td align="left">Sectorial impact</td>
 </tr>
 <tr class="odd">
-<td align="left">Infrastructural impact
-The infrastructure that was damaged or destroyed by the disaster, given in absolute values or percentages: Houses (number), Bridges (number), Commercial/business (number), Roads (km), Rails (km), Education (number of schools), Health (numbers of health centers/hospitals), Forest (ha), Farmland/crops (ha)</td>
+<td align="left">Infrastructural impact: The infrastructure that was damaged or destroyed by the disaster, given in absolute values or percentages: Houses (number), Bridges (number), Commercial/business (number), Roads (km), Rails (km), Education (number of schools), Health (numbers of health centers/hospitals), Forest (ha), Farmland/crops (ha)</td>
 </tr>
 </tbody>
 </table>

@@ -103,46 +103,25 @@
 <h1><span class="header-section-number">Chapter 3</span> Data transformation</h1>
 <p>Based on information about the attributes from the last chapter and the selected questions we want to study for this project, we did an initial filtering of the attributes in the data set.</p>
 <p>First we calculate see the top ten attributes with highest missing percentage.</p>
-<pre><code>##                          columns     count
-## 1           Reconstruction_Costs 0.9973317
-## 2  Reconstruction_Costs_Adjusted 0.9973317
-## 3                     Local_Time 0.9548115
-## 4                Associated_Dis2 0.9434498
-## 5                            Aid 0.9418144
-## 6                     Subsubtype 0.9240833
-## 7                       Response 0.9184025
-## 8                Insured_Damages 0.9116027
-## 9       Insured_Damages_Adjusted 0.9116027
-## 10                   River_Basin 0.8926666
-## 11                         Glide 0.8681357
-## 12                   No_Homeless 0.8436908
-## 13                      Latitude 0.8247547
-## 14                     Longitude 0.8244104
-## 15                        Appeal 0.8124462
-## 16                   Declaration 0.7562403
-## 17                Associated_Dis 0.7443622
-## 18                    No_Injured 0.7431572
-## 19                          Name 0.7429850
-## 20                        Origin 0.6895335
-## 21                   Admin2_Code 0.6657772
-## 22                 Total_Damages 0.6637976
-## 23        Total_Damages_Adjusted 0.6637976
-## 24                      DM_Value 0.6507144
-## 25                   Admin1_Code 0.6127561
-## 26                   No_Affected 0.3775176
-## 27                     Adm_Level 0.3363746
-## 28                 Geo_Locations 0.3363746
-## 29                  Total_Deaths 0.2898089
-## 30                Total_Affected 0.2192288</code></pre>
+<pre><code>##                         columns     count
+## 1          Reconstruction_Costs 0.9973317
+## 2 Reconstruction_Costs_Adjusted 0.9973317
+## 3                    Local_Time 0.9548115
+## 4               Associated_Dis2 0.9434498
+## 5                           Aid 0.9418144
+## 6                    Subsubtype 0.9240833
+## 7                      Response 0.9184025
+## 8               Insured_Damages 0.9116027</code></pre>
 <p>Below lists the ten attributes we deleted and the main reason we deleted them. Note that we categorize according to the main concern since there may be multiple reasons for one attribute.</p>
-<p>Attributes not interested in studying:
-Name,Local_Time,River_Basin,Group,Location
-Attributes with very high missing percentage:<br />
-Reconstruction_Costs,Reconstruction_Costs_Adjusted
-Attributes that has similar information contained elsewhere or those with no clear explanation documented :
-Adm_Level,Admin1_Code,Admin2_Code,Geo_Locations,Latitude,Longitude</p>
-<pre><code>## [1] 11618    38</code></pre>
-<p>After this initial filtering, we have 38 columns left. As we progress further, we will look into the attributes more in detail and select the most interesting attributes to study for this project.</p>
+<p><strong>Attributes not interested in studying:</strong></p>
+<p>Name,Local_Time,River_Basin,Group,Location,River_Basin</p>
+<p><strong>Attributes with very high missing percentage:</strong></p>
+<p>Reconstruction_Costs,Reconstruction_Costs_Adjusted</p>
+<p><strong>Attributes that has similar information contained elsewhere or those with no clear explanation documented:</strong></p>
+<p>Adm_Level,Admin1_Code,Admin2_Code,Geo_Locations,Latitude,Longitude,Year</p>
+<pre><code>## [1] 11618    33</code></pre>
+<p>After this initial filtering, we have 33 columns left. We categorize the attributes into two main groups: basic information and impact information. Basic information includes subgroups of geographical information, physical information, temporal information, and status (appeal and aid); and impact information includes subgroups of human impact and economic impact.</p>
+<p>As we progress further, we will look into the attributes more in detail and select the most interested attributes to study.</p>
 
 </div>
             </section>
