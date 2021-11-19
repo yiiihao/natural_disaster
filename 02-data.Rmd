@@ -1,6 +1,10 @@
-# Data sources
+# Data sources 
 
-Query the natural disaster data from https://public.emdat.be/data. Here, we select natural disaster in all locations provided between time range 1990 to 2020. When reading the excel file, we skip the first 6 title lines and assign the column names accordingly. The raw data has 50 attributes and 11618 rows in total. 
+The data set we chose is from EM-DAT (The International Disaster Database) at https://public.emdat.be/data.
+
+**EM-DAT (Emergency Event Database)** was created with the initial support of the World Health Organisation (WHO) and the Belgian Government. It contains essential core data on the occurrence and effects of over 22,000 mass disasters in the world from 1900 to the present day. The database is compiled from various sources, including UN agencies, non-governmental organisations, insurance companies, research institutes and press agencies.To narrow down the range of the data for the use of this project, we selected natural disaster data from all five continents, dating between 1990 to 2020.
+
+Query the natural disaster data from source and select natural disaster in all locations provided between time range 1990 to 2020 which generates a single excel file. When reading the excel file, we skip the first 6 title lines and assign the column names accordingly. The raw data has 50 attributes and 11618 rows in total. 
 ```{r}
 library(readxl)
 col_name <- c("No",	"Year",	"Seq",	"Glide",	"Group",	"Subgroup",	 "Type", "Subtype",	"Subsubtype",	"Name",	"Country", "ISO",	"Region", "Continent",	"Location",	"Origin",	"Associated_Dis",	"Associated_Dis2","Response","Appeal","Declaration",	"Aid","DM_Value","DM_Scale","Latitude","Longitude","Local_Time","River_Basin","Start_Year","Start_Month","Start_Day","End_Year", "End_Month",	"End_Day", "Total_Deaths","No_Injured",	"No_Affected",	"No_Homeless",	"Total_Affected",	"Reconstruction_Costs", "Reconstruction_Costs_Adjusted", "Insured_Damages",	"Insured_Damages_Adjusted",	"Total_Damages",	"Total_Damages_Adjusted",	"CPI",	"Adm_Level", "Admin1_Code",	"Admin2_Code",	"Geo_Locations")
@@ -12,7 +16,7 @@ dim(rawdata)
 ```
 
 
-Here is a brief introduction to the attributes of the data set copied from the source website. The attributes discussed below do not match completely with the raw data we get but covered the majority. For simplicity, some detailed information was deleted and can be accessed at https://public.emdat.be/about. 
+Here is a brief introduction to the attributes of the data set copied from the source website. The attributes discussed below do not match exactly with the raw data we get but covered the majority. For simplicity, some detailed information was deleted and can be accessed at https://public.emdat.be/about. 
 
 
 -----------------------------------------------------------------
@@ -30,15 +34,17 @@ Disaster sub-type: Subdivision related to the disaster type.
 
 Disaster sub-sub-type: Any appropriate sub-division of the disaster sub-type (not applicable for all disaster sub-types).
 
-Event name: Any specification related to the disaster which allow its identification (i.e. “Mitch” for the name of storm, “Boeing 707” for the type of plane in an air crash, name of the diseases such as “Cholera” for an epidemic, “Etna” for the name of the volcano, etc.)
+Event name: Any specification related to the disaster which allow its identification.
 
-Glide Number: The GLobal IDEntifier number (GLIDE; further information available on www.glidenumber.net) is a globally common Unique ID code for disasters intended to facilitate linkages between records in diverse disaster databases and disaster exchange information websites such as ReliefWeb.
+Glide Number: The GLobal IDEntifier number is a globally common Unique ID code for disasters.
 
 DFO/GVP/USGS: This field is used to link the EMDAT disaster with the ones of other databases: Dartmouth Flood Observatory, Global Volcanism Program, USGS.
 
 
 Level 2 – Country (ies)
+
 Geographical information
+
 Country: The country in which the disaster has occurred or had an impact.
 
 ISO Code: The International Organization for Standardization attributes a 3-letter code to each country. CRED uses the ISO 3166 (www.iso.org). This field is automatically linked to the country.
@@ -68,6 +74,7 @@ Local time: The local time when the disaster occurred (given for sudden disaster
 
 
 Physical characteristics
+
 Origin: The triggering origin of the disaster (i.e. Heavy rains for a flood, drought for a forest fire).
 
 Associated disasters 1 and 2: The secondary and /or associated effects or consequences of a primary event (i.e. Landslide for a flood, explosion after an earthquake, etc …)
@@ -76,15 +83,10 @@ Disaster magnitude scale and value: The “intensity “of a specific disaster (
 
 
 Status
+
 Aid contribution: The total amount (given in 000'US$ current value, i.e. value at the time of the report) of contribution for immediate relief activities given to the country as a response to the disaster.
 
 OFDA response: Whether or not OFDA responded to the disaster.
-
-Appeal for international assistance + date: Was there any request for an international assistance from the affected country(ies) and when was it requested.
-
-Declaration of disaster + date: Was there a state of emergency declared in the country(ies) and when was it declared.
-
-
 
 Level 3 – Source of information
 
@@ -94,6 +96,7 @@ Reliability score (1/5): A reliability score going ranking from (1) very low - t
 
 
 Human impact
+
 Deaths: Number of people who lost their life because the event happened.
 
 Missing: The number of people whose whereabouts since the disaster are unknown, and presumed dead based on official figures.
@@ -110,16 +113,15 @@ Total affected: The total affected is the sum of injured, affected and homeless
 
 
 Economic impact
+
 Total estimated damages (in 000'US$ current value): A value of all damages and economic losses directly or indirectly related to the disaster. 
 
-Reconstruction cost (in 000'US$ current value): These costs are for the replacement of lost assets. Reconstruction costs are different than total damages as they must take into account present construction or purchase costs of goods, as well as the additional cost of prevention and mitigation measures to reduce damage from future disasters.
+Reconstruction cost (in 000'US$ current value): These costs are for the replacement of lost assets. 
 
 Insured losses (in 000'US$ current value): Economic damages which are covered by the insurance companies.
 
 
 Sectorial impact
-Check box specifying the different sectors affected by the disaster: Animals, Industry, Electricity, Water supply/sanitation, Communications, Cultural infrastructure, Transportation, Other (+ specifications of what “other” means).
 
-Infrastructural impact
-The infrastructure that was damaged or destroyed by the disaster, given in absolute values or percentages: Houses (number), Bridges (number), Commercial/business (number), Roads (km), Rails (km), Education (number of schools), Health (numbers of health centers/hospitals), Forest (ha), Farmland/crops (ha)
+Infrastructural impact: The infrastructure that was damaged or destroyed by the disaster, given in absolute values or percentages: Houses (number), Bridges (number), Commercial/business (number), Roads (km), Rails (km), Education (number of schools), Health (numbers of health centers/hospitals), Forest (ha), Farmland/crops (ha)
 -----------------------------------------------------------------

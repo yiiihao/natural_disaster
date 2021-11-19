@@ -5,18 +5,12 @@ date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 ---
 
-# Introduction
+# Introduction 
 
-Given that many unprecedented natural disasters like violent flood and storm are happening more frequently than ever and causing a lot of losses, injuries, and even deaths in recent years, we propose the following questions to help study the possible pattern of the occurrence and consequences aiming to provide some insights for preparation and assessment of natural disasters:
+Given that many unprecedented natural disasters like violent flood and storm happening more frequently than ever and causing a lot of losses, injuries, and even deaths in recent years, we are interested in studying the possible patterns of the occurrence and consequences of these natural disasters on a worldwide scale. In this project, we propose the following questions aiming to provide some insights for preparation and assessment of natural disasters:
 
-1. What are the patterns of occurrence for the most frequently happening disasters by region?
-2. Over time, how do the patterns change and how do they help people prepare for future disasters?
-3. How to define the level of damage for a disaster and could we give an assessment of the vulnerability of different regions against disasters?
+*1. What are the patterns of occurrence for the most frequently happening disasters by region?*
 
-Data Source :The dataset we chose is from EM-DAT The International Disaster Database at https://public.emdat.be/data.
+*2. Over time, how do the patterns change and how do they help people prepare for future disasters?*
 
-EM-DAT (Emergency Event Database) was created with the initial support of the World Health Organisation (WHO) and the Belgian Government. It contains essential core data on the occurrence and effects of over 22,000 mass disasters in the world from 1900 to the present day. The database is compiled from various sources, including UN agencies, non-governmental organisations, insurance companies, research institutes and press agencies.To narrow down the range of the data for the use of this project, we selected natural disaster data from all five continents, dating between 1990 to 2020.
-
-How the data helps us study the questions:
-Each entry in the dataset represents one instance of natural disaster. There are three levels in the dataset. First level ‘Disaster event’ contains details about the categorization of the disaster, and second level ‘Countries’ gives information about region and occurrence time of it. Using these two levels, we could find out the most common disaster types and occurrence patterns in different regions by aggregating data on different sublevels. By analyzing the occurrence over the thirty-year timeline, we are able to conclude how the patterns might have changed.
-The third level ‘Source of information’ tracks the source and its reliability, as well as provides statistics concerning the consequences of the disasters on several scales including human impact, economic impact, and infrastructural impact. Based on these impact statistics, we could define a reasonable scale of damage of a disaster. By applying this scale to different regions, we are able to estimate the vulnerability for that region, and this could help people prioritize and allocate resources to prepare for future disasters.
+*3. How to define the level of damage for a disaster and could we give an assessment of the vulnerability of different regions against disasters?*

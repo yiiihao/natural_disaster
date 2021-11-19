@@ -1,4 +1,4 @@
-# Data transformation
+# Data transformation 
 
 Based on information about the attributes from the last chapter and the selected questions we want to study for this project, we did an initial filtering of the attributes in the data set.
 
@@ -10,21 +10,28 @@ library(dplyr)
 col_missing <- data.frame(count = colSums(is.na(rawdata))/nrow(rawdata)) %>% 
   rownames_to_column("columns") %>% 
   arrange(desc(count))
-head(col_missing,n=30)
+head(col_missing,n=8)
 ```
 Below lists the ten attributes we deleted and the main reason we deleted them. Note that we categorize according to the main concern since there may be multiple reasons for one attribute.
 
-Attributes not interested in studying:
-Name,Local_Time,River_Basin,Group,Location
-Attributes with very high missing percentage:   
+**Attributes not interested in studying:**
+
+Name,Local_Time,River_Basin,Group,Location,River_Basin
+
+**Attributes with very high missing percentage:**
+
 Reconstruction_Costs,Reconstruction_Costs_Adjusted
-Attributes that has similar information contained elsewhere or those with no clear explanation documented : 
-Adm_Level,Admin1_Code,Admin2_Code,Geo_Locations,Latitude,Longitude
+
+**Attributes that has similar information contained elsewhere or those with no clear explanation documented:**
+
+Adm_Level,Admin1_Code,Admin2_Code,Geo_Locations,Latitude,Longitude,Year
 
 ```{r}
 natural <- rawdata %>% 
-  select(-c(Seq,Glide,Group,Name,Location,Response,Latitude,Longitude,Local_Time,Reconstruction_Costs,Reconstruction_Costs_Adjusted,Geo_Locations))
+  select(-c(Year,Seq,Glide,Group,Name,Location,River_Basin,Response,Latitude,Longitude,Local_Time,Reconstruction_Costs,Reconstruction_Costs_Adjusted,Geo_Locations,Adm_Level,Admin1_Code,Admin2_Code))
 dim(natural)
 #View(natural)
 ```
-After this initial filtering, we have 38 columns left. As we progress further, we will look into the attributes more in detail and select the most interesting attributes to study for this project. 
+After this initial filtering, we have 33 columns left. We categorize the attributes into two main groups: basic information and impact information. Basic information includes subgroups of geographical information, physical information, temporal information, and status (appeal and aid); and impact information includes subgroups of human impact and economic impact. 
+
+As we progress further, we will look into the attributes more in detail and select the most interested attributes to study. 
