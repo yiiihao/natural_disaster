@@ -2,23 +2,124 @@
 
 ####First draft 1018
 
-Import function plot_patterns(df, percent = TRUE) from the .R file.
 ```{r, include=FALSE}
 library(tidyverse)
 library(dplyr)
+library(patchwork)
+library(readxl)
+library(glue)
 source("missing_patterns.R", local = knitr::knit_global())
 ```
 
-Examine the missing values on a subset of the data set. 
+```{r}
+col_name <- c("No",	"Year",	"Seq",	"Glide",	"Group",	"Subgroup",	 "Type", "Subtype",	"Subsubtype",	"Name",	"Country", "ISO",	"Region", "Continent",	"Location",	"Origin",	"Associated_Dis",	"Associated_Dis2","Response","Appeal","Declaration",	"Aid","DM_Value","DM_Scale","Latitude","Longitude","Local_Time","River_Basin","Start_Year","Start_Month","Start_Day","End_Year", "End_Month",	"End_Day", "Total_Deaths","No_Injured",	"No_Affected",	"No_Homeless",	"Total_Affected",	"Reconstruction_Costs", "Reconstruction_Costs_Adjusted", "Insured_Damages",	"Insured_Damages_Adjusted",	"Total_Damages",	"Total_Damages_Adjusted",	"CPI",	"Adm_Level", "Admin1_Code",	"Admin2_Code",	"Geo_Locations")
+natural <- read_excel("natural_disaster.xlsx", skip = 6,col_names = FALSE) 
+colnames(natural) <- col_name
+natural <- rawdata %>% 
+  select(-c(Year,Seq,Glide,Group,Name,Location,River_Basin,Response,Latitude,Longitude,Local_Time,Reconstruction_Costs,Reconstruction_Costs_Adjusted,Adm_Level))
+```
 
-Since our data have large size and different type of columns, to analyze the missing value more correctly, we divide the data by their types. In our data, column2-5 are about group and type of the disaster. Column 6-9 are region of the disaster such as country, location. Column 10-12 are origin and asso. Column 13-15 are apeal, dec and aid. Column16-17 are scale and value. Column 18-23 is time. Column24-28 are human impact and economic impact.Then we make different plots of missing values.
+We want to firstly understand holistically what are the distribution of missing values across these columns.
+```{r}
+sort(colSums(is.na(natural))/nrow(natural), decreasing=TRUE)
+mean(colSums(is.na(natural))/nrow(natural))
+```
+We can see that Associated_Dis2, Aid, Subsubtype, Insured_Damages and Insured_Damages_Adjusted have very high percentage of missing values (>90%). Most columns have missing values, with average of 40% among all selected columns. 11 columns have nearly 0% of missing values. 
+
+Since our data have large size and different type of columns, to analyze the missing value more correctly, we divide the data by their types. In our data, column2-5 are about group and type of the disaster. Column 6-9 are region of the disaster such as country, location. Column 10-12 are origin and asso. Column 13-15 are appeal, dec and aid. Column16-17 are scale and value. Column 18-23 is time. Column24-28 are human impact and economic impact.Then we make different plots of missing values.
 
 ```{r}
-# divide by group
-group_type <- natural[,c(2:5)]
-plot_patterns(group_type, percent = TRUE)
+plot_patterns <- function(df,percent=TRUE) {
+  
+  nrow = nrow(df)
+  ncol = ncol(df)
+  
+  missing_patterns <- data.frame(is.na(df)) %>%
+    group_by_all() %>%
+    count(name = "count", sort = TRUE) %>%
+    ungroup()
+  
+  test <- missing_patterns %>% 
+    mutate(index = row_number()) %>%
+    gather(key, value, -c(index,count)) %>%
+    group_by(index) %>%
+    mutate(label = ifelse(sum(value)==0, "complete", "pass")) %>%
+    ungroup() %>%
+    mutate(label = ifelse(label=="complete", "complete",ifelse(value==TRUE, "true", "false") ))
+  
+  if(!percent){
+  test1 <- data.frame(count = colSums(is.na(df))) %>% 
+    rownames_to_column("columns") %>% 
+    arrange(desc(count))
+  level <- test1$columns
+  lab1 <- "num rows missing"
+  ylim1 <- max(test1$count)
+  
+  test2 <- test %>%
+    group_by(index) %>%
+    summarise(count=mean(count), complete = ifelse(sum(value)==0,"yes","no"))
+  lab2 <- "row count"
+  xlim2 <- max(test2$count)
+  }
+  
+  else{
+  test1 <- data.frame(count = colSums(is.na(df))/nrow*100) %>% 
+    rownames_to_column("columns") %>% 
+    arrange(desc(count))
+  level <- test1$columns
+  lab1 <- "% rows missing"
+  ylim1 <- 100
+  
+  test2 <- test %>%
+    group_by(index) %>%
+    summarise(count=mean(count)/nrow*100, complete = ifelse(sum(value)==0,"yes","no"))
+  lab2 <- "% rows"
+  xlim2 <-100
+  }
+  
+  p2 <- ggplot(test1,aes(x=factor(columns,levels = level),y=count)) + 
+    geom_bar(stat="identity",fill="skyblue") + 
+    labs(y=lab1,x="", title = "Missing value patterns") +
+    ylim(0,ylim1) +
+    theme_bw() +
+    theme(panel.grid.major.x = element_blank(),
+      panel.grid.minor.x = element_blank())
+  
+  index <- test2[test2$complete=="yes",]$index
+  cols <- c("false" = "gray83", "true" = "rosybrown2", "complete" = "grey")
+  p1 <- ggplot(test,aes(x=factor(key,levels = level),y=fct_rev(factor(index)),fill=label)) +
+    geom_tile(color="white") + 
+    scale_fill_manual(values = cols) +
+    labs(x="variables",y="missing patterns") +
+    theme(legend.position = "none")
+  
+  npattern <- nrow(missing_patterns)
+  if(length(index)>=1){
+    for(i in index){
+      p1 <- p1 + geom_text(x=ncol/2+0.5, y=npattern+1-i, label="complete cases",size=5)
+    }
+  }
+  
+  p3 <- ggplot(test2, aes(x=count, y=fct_rev(factor(index)),fill=complete)) + 
+    scale_fill_manual(values=c("skyblue", "deepskyblue3")) +
+    geom_bar(stat="identity") +
+    labs(x=lab2,y="") +
+    xlim(0,xlim2) +
+    theme_bw() +
+    theme(panel.grid.major.y = element_blank(),
+      panel.grid.minor.y = element_blank()) +
+    theme(legend.position = "none")
+  
+  layout <- "
+  BBBBBBBBBB##
+  AAAAAAAAAACC
+  AAAAAAAAAACC
+  AAAAAAAAAACC
+  "
+  return(p1 + p2 + p3 + 
+  plot_layout(design = layout))
+}
 ```
-This is the plot of missing value of column2-5, about type of the disaster. from the plot, we are able to see the subsubtype (Severe storm, Tornado, Lightning, etc.) has the most missing values, and subtype(Drought, Ground movement, Cold wave, etc.) have smaller missing values. Subgroup(include Climatological, Geophysical, Meteorological) and type(Flood, storm, etc) have no missing values based on column.
 
 ```{r}
 # divide by group
@@ -26,7 +127,50 @@ location <- natural[,c(6:9)]
 plot_patterns(location, percent = TRUE)
 ```
 
-This is the plot of missing value of column6-9, about egion of the disaster. from the plot, we are able to see that there are no missing values in all of those columns which are Country, ISO, Region and Continent.
+This is the plot of missing value of column6-9, about region of the disaster. from the plot, we are able to see that there are no missing values in all of those columns which are Country, ISO, Region and Continent. These are basic information of a disaster.
+
+```{r}
+# divide by group
+group_type <- natural[,c(2:5)]
+plot_patterns(group_type, percent = TRUE)
+```
+This is the plot of missing value of column2-5, about type of the disaster. from the plot, we are able to see the subsubtype (Severe storm, Tornado, Lightning, etc.) has very high missing value, and subtype(Drought, Ground movement, Cold wave, etc.) have much smaller missing values than subsubtype. Subgroup(include Climatological, Geophysical, Meteorological) and type(Flood, storm, etc) have no missing values based on column.
+
+```{r}
+missing <- natural %>% 
+    group_by(Region) %>% 
+    summarise(perc.na = sum(is.na(Subsubtype))/n())
+
+p1 <- ggplot(missing, aes(x = 1:23, y = perc.na)) +
+  geom_col(color = "blue", fill = "lightblue") +
+  scale_x_continuous(breaks = 1:23, labels = missing$Region) +
+  ggtitle("Percentage of missing Subsubtype by Region") +
+  xlab("") +
+  ylab("Percentage of missing Subsubtype") +
+  theme(axis.text.x = element_text(angle = 90))
+
+
+missing <- natural %>% 
+    group_by(Region) %>% 
+    summarise(perc.na = sum(is.na(Subtype))/n())
+
+p2 <- ggplot(missing, aes(x = 1:23, y = perc.na)) +
+  geom_col(color = "blue", fill = "lightblue") +
+  scale_x_continuous(breaks = 1:23, labels = missing$Region) +
+  ggtitle("Percentage of missing Subtype by Region") +
+  xlab("") +
+  ylab("Percentage of missing Subtype") +
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+```{r}
+p1
+```
+```{r}
+p2
+```
+
+We further want to understand if there is a missing pattern by country (one of the basic information) for these three columns. There is no obvious pattern for "Subsubtype". Data for all countries all present high missing value percentage pattern. But Subtype missing value percentage is quite different across countries, with Micronesia and Polynesia lowest percentage of missing values. 
 
 
 ```{r}
@@ -35,16 +179,117 @@ origin <- natural[,c(10:12)]
 plot_patterns(origin, percent = TRUE)
 ```
 
-This is the plot of missing value of column10-12, about origin and two assos of the disaster. from the plot, we are able to see that three of them has evenly amount of missing values. The most missing value in pattern is the row of missing all three of them.
+This is the plot of missing value of column10-12, about origin and two assos of the disaster. from the plot, we are able to see that three of them has all have very high percentage of missing values. Most of the rows don't have information on all three of these columns. This showcases that these set of columns may not be able to provide enough information for analysis.
 
+```{r}
+missing <- natural %>% 
+    group_by(Region) %>% 
+    summarise(perc.na = sum(is.na(Associated_Dis2))/n())
+
+p1 <- ggplot(missing, aes(x = 1:23, y = perc.na)) +
+  geom_col(color = "blue", fill = "lightblue") +
+  scale_x_continuous(breaks = 1:23, labels = missing$Region) +
+  ggtitle("Percentage of missing Associated_Dis2 by Region") +
+  xlab("") +
+  ylab("Percentage of missing Associated_Dis2") +
+  theme(axis.text.x = element_text(angle = 90))
+
+missing <- natural %>% 
+    group_by(Region) %>% 
+    summarise(perc.na = sum(is.na(Associated_Dis))/n())
+
+p2 <- ggplot(missing, aes(x = 1:23, y = perc.na)) +
+  geom_col(color = "blue", fill = "lightblue") +
+  scale_x_continuous(breaks = 1:23, labels = missing$Region) +
+  ggtitle("Percentage of missing Associated_Dis by Region") +
+  xlab("") +
+  ylab("Percentage of missing Associated_Dis") +
+  theme(axis.text.x = element_text(angle = 90))
+
+missing <- natural %>% 
+    group_by(Region) %>% 
+    summarise(perc.na = sum(is.na(Origin))/n())
+
+p3 <- ggplot(missing, aes(x = 1:23, y = perc.na)) +
+  geom_col(color = "blue", fill = "lightblue") +
+  scale_x_continuous(breaks = 1:23, labels = missing$Region) +
+  ggtitle("Percentage of missing Origin by Region") +
+  xlab("") +
+    ylab("Percentage of missing origin") +
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+```{r}
+p1
+```
+
+```{r}
+p2
+```
+
+```{r}
+p3
+```
+We further want to understand if there is a missing pattern by country (one of the basic information) for these three columns. These graphs show that all regions have similar patterns for missing values for this group of columns. 
 
 ```{r}
 # divide by group
-apeal <- natural[,c(13:15)]
-plot_patterns(apeal, percent = TRUE)
+appeal <- natural[,c(13:15)]
+plot_patterns(appeal, percent = TRUE)
 ```
 
-This is the plot of missing value of column13-15, about apeal, declaration and aid of the disaster. from the plot, three of them have evenly amount of missing values. But we can still see that the aid has the most missing values. Also, the row with all three of them missing have largest amount.
+This is the plot of missing value of column13-15, about apeal, declaration and aid of the disaster. from the plot, three of them have evenly amount of missing values, and they are quite high. But we can still see that the aid has the most missing values. Also, the row with all three of them missing have largest amount.
+
+```{r}
+missing <- natural %>% 
+    group_by(Region) %>% 
+    summarise(perc.na = sum(is.na(Aid))/n())
+
+p1 <- ggplot(missing, aes(x = 1:23, y = perc.na)) +
+  geom_col(color = "blue", fill = "lightblue") +
+  scale_x_continuous(breaks = 1:23, labels = missing$Region) +
+  ggtitle("Percentage of missing Aid by Region") +
+  xlab("") +
+  ylab("Percentage of missing Aid") +
+  theme(axis.text.x = element_text(angle = 90))
+
+missing <- natural %>% 
+    group_by(Region) %>% 
+    summarise(perc.na = sum(is.na(Appeal))/n())
+
+p2 <- ggplot(missing, aes(x = 1:23, y = perc.na)) +
+  geom_col(color = "blue", fill = "lightblue") +
+  scale_x_continuous(breaks = 1:23, labels = missing$Region) +
+  ggtitle("Percentage of missing Appeal by Region") +
+  xlab("") +
+  ylab("Percentage of missing Appeal") +
+  theme(axis.text.x = element_text(angle = 90))
+
+missing <- natural %>% 
+    group_by(Region) %>% 
+    summarise(perc.na = sum(is.na(Declaration))/n())
+
+p3 <- ggplot(missing, aes(x = 1:23, y = perc.na)) +
+  geom_col(color = "blue", fill = "lightblue") +
+  scale_x_continuous(breaks = 1:23, labels = missing$Region) +
+  ggtitle("Percentage of missing Declaration by Region") +
+  xlab("") +
+  ylab("Percentage of missing Declaration") +
+  theme(axis.text.x = element_text(angle = 90))
+```
+
+```{r}
+p1
+```
+
+```{r}
+p2
+```
+
+```{r}
+p3
+```
+We further want to understand if there is a missing pattern by country (one of the basic information) for these three columns. These graphs show that Appeal and Aid have similar missing pattern for regions. For Declaration, Russian Fed has higher than average missing values.
 
 ```{r}
 # divide by group
@@ -70,9 +315,59 @@ plot_patterns(impact, percent = TRUE)
 
 This is the plot of missing value of column24-28, about human impact and economic impact of the disaster. from the plot, all of the columns of impact has missing values, but the total_affacted column has the smallest amount. The column with greatest missing values is No_Homeless, and No_Injured has lesser but similar amount of missing values. 
 
+```{r}
+missing <- natural %>% 
+    group_by(Region) %>% 
+    summarise(perc.na = sum(is.na(No_Homeless))/n())
+
+p1 <- ggplot(missing, aes(x = 1:23, y = perc.na)) +
+  geom_col(color = "blue", fill = "lightblue") +
+  scale_x_continuous(breaks = 1:23, labels = missing$Region) +
+  ggtitle("Percentage of missing No_Homeless by Region") +
+  xlab("") +
+  ylab("Percentage of missing No_Homeless") +
+  theme(axis.text.x = element_text(angle = 90))
+
+missing <- natural %>% 
+    group_by(Region) %>% 
+    summarise(perc.na = sum(is.na(No_Injured))/n())
+
+p2 <- ggplot(missing, aes(x = 1:23, y = perc.na)) +
+  geom_col(color = "blue", fill = "lightblue") +
+  scale_x_continuous(breaks = 1:23, labels = missing$Region) +
+  ggtitle("Percentage of missing No_Injured by Region") +
+  xlab("") +
+  ylab("Percentage of missing No_Injured") +
+  theme(axis.text.x = element_text(angle = 90))
+
+missing <- natural %>% 
+    group_by(Region) %>% 
+    summarise(perc.na = sum(is.na(No_Affected))/n())
+
+p3 <- ggplot(missing, aes(x = 1:23, y = perc.na)) +
+  geom_col(color = "blue", fill = "lightblue") +
+  scale_x_continuous(breaks = 1:23, labels = missing$Region) +
+  ggtitle("Percentage of missing No_Affected by Region") +
+  xlab("") +
+  ylab("Percentage of missing No_Affected") +
+  theme(axis.text.x = element_text(angle = 90))
 
 
+```
 
+```{r}
+p1
+```
+
+```{r}
+p2
+```
+
+```{r}
+p3
+```
+
+We further want to understand if there is a missing pattern by country (one of the basic information) for these three columns. No_homeless and No_injured missing percentage is similar. Whereas for No_affected, it is quite different for different regions. Western Europe and Northern Europe have highest amount of missing values.
 
 
 
