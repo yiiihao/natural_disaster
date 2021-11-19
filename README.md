@@ -4,7 +4,7 @@ Given that many unprecedented natural disasters like violent flood and storm are
 
 
 Link to the book URL: 
-https://yiiihao.github.io/natural_disaster/
+https://yiiihao.github.io/natural_disaster/index.html
 
 
 *This repo was initially generated from a bookdown template available here: https://github.com/jtr13/EDAVtemplate.*	
