@@ -367,7 +367,7 @@ p2
 p3
 ```
 
-We further want to understand if there is a missing pattern by country (one of the basic information) for these three columns. No_homeless and No_injured missing percentage is similar. Whereas for No_affected, it is quite different for different regions. Western Europe and Northern Europe have highest amount of missing values.
+We further want to understand if there is a missing pattern by country (one of the basic information) for these three columns. No_homeless and No_injured missing percentage is similar among different regions. Whereas for No_affected, it is quite different for different regions. Western Europe and Northern Europe have highest amount of missing values.
 
 
 
