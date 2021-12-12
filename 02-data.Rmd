@@ -15,6 +15,8 @@ dim(rawdata)
 #View(rawdata)
 ```
 
+**Possible issues** with the data: We know that the database is compiled from various sources from organizations and agencies, so there might be concerns about the consistency of information. Also, since the we are looking at data over a 30-year range, so there might also be concerns about the ability of collecting and storing data varying over the time. Other than that, since it is hard to collect data from around the world and some of the attributes in the database like number of people affected by a disaster and total damages caused by a disaster are hard to asses, thus the accuracy of such attributes may be a potential issue as well.
+
 
 Here is a brief introduction to the attributes of the data set copied from the source website. The attributes discussed below do not match exactly with the raw data we get but covered the majority. For simplicity, some detailed information was deleted and can be accessed at https://public.emdat.be/about. 
 

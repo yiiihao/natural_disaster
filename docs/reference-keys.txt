@@ -2,6 +2,9 @@ introduction
 data-sources
 data-transformation
 missing-values
+missing-percentage-of-entire-data-set
+categorization-missing-patterns
+impact-data-missing-patterns
 results
 interactive-component
 conclusion

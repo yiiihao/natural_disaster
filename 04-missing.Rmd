@@ -1,7 +1,8 @@
 # Missing values
 
+### Missing percentage of entire data set
 Plot the missing percentage of columns and sort them decreasingly. 
-```{r, include=FALSE}
+```{r}
 missing_col <- data.frame(percent = colSums(is.na(natural))/nrow(natural)*100) %>% 
   rownames_to_column("columns") %>% 
   arrange(desc(percent))
@@ -20,7 +21,7 @@ We see that there are 14 columns that have more than 50% missing values, 9 colum
 
 
 Import function plot_patterns(df, percent = TRUE) from the .R file. 
-```{r, include=FALSE}
+```{r}
 library(tidyverse)
 library(dplyr)
 library(patchwork)
@@ -37,20 +38,6 @@ Column 2-4 describes the categorization of a natural disaster. Plot the missing 
 ```{r}
 categorization <- natural[,2:5]
 plot_patterns(categorization, percent = TRUE)
-```
-
-
-Here, we show the distribution of natural disasters grouped by subgroup and type which covered all the data since these two attributes do not have missing values.
-```{r}
-col_Subgroup <- categorization %>% group_by(Subgroup) %>% summarise(count=n()) %>% arrange(desc(count))
-level_Subgroup <- col_Subgroup$Subgroup
-cat_table <- categorization %>% 
-  group_by(Subgroup,Type) %>% 
-  summarise(count=n()) %>%
-  arrange(desc(count), .by_group = TRUE) %>%
-  arrange(factor(Subgroup, levels = level_Subgroup)) %>%
-  mutate(percent = count/nrow(natural)*100) %>%
-cat_table
 ```
 
 ```{r}
@@ -71,6 +58,7 @@ Column 18-23 describes human impact and economic impact of a natural disaster wh
 impact_ppl <- natural[,c(24:28)]
 plot_patterns(impact_ppl, percent = TRUE)
 ```
+
 Column 29-32 describes economic impact of a natural disaster which also helps us study the consequences of disasters. Here, we see that all four columns have rather high missing percentage. Shown in the pattern plot, there are few complete cases. It is understandable that such data is hard to collect and is always subject to change over the time. 
 
 ```{r}

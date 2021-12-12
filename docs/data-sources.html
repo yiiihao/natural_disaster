@@ -24,7 +24,7 @@
 <meta name="author" content="Yihao Gao" />
 
 
-<meta name="date" content="2021-11-19" />
+<meta name="date" content="2021-12-12" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -76,7 +76,12 @@
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction</a></li>
 <li class="chapter" data-level="2" data-path="data-sources.html"><a href="data-sources.html"><i class="fa fa-check"></i><b>2</b> Data sources</a></li>
 <li class="chapter" data-level="3" data-path="data-transformation.html"><a href="data-transformation.html"><i class="fa fa-check"></i><b>3</b> Data transformation</a></li>
-<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a></li>
+<li class="chapter" data-level="4" data-path="missing-values.html"><a href="missing-values.html"><i class="fa fa-check"></i><b>4</b> Missing values</a>
+<ul>
+<li class="chapter" data-level="4.0.1" data-path="missing-values.html"><a href="missing-values.html#missing-percentage-of-entire-data-set"><i class="fa fa-check"></i><b>4.0.1</b> Missing percentage of entire data set</a></li>
+<li class="chapter" data-level="4.0.2" data-path="missing-values.html"><a href="missing-values.html#categorization-missing-patterns"><i class="fa fa-check"></i><b>4.0.2</b> Categorization missing patterns</a></li>
+<li class="chapter" data-level="4.0.3" data-path="missing-values.html"><a href="missing-values.html#impact-data-missing-patterns"><i class="fa fa-check"></i><b>4.0.3</b> Impact data missing patterns</a></li>
+</ul></li>
 <li class="chapter" data-level="5" data-path="results.html"><a href="results.html"><i class="fa fa-check"></i><b>5</b> Results</a></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
@@ -105,6 +110,7 @@
 <p><strong>EM-DAT (Emergency Event Database)</strong> was created with the initial support of the World Health Organisation (WHO) and the Belgian Government. It contains essential core data on the occurrence and effects of over 22,000 mass disasters in the world from 1900 to the present day. The database is compiled from various sources, including UN agencies, non-governmental organisations, insurance companies, research institutes and press agencies.To narrow down the range of the data for the use of this project, we selected natural disaster data from all five continents, dating between 1990 to 2020.</p>
 <p>Query the natural disaster data from source and select natural disaster in all locations provided between time range 1990 to 2020 which generates a single excel file. When reading the excel file, we skip the first 6 title lines and assign the column names accordingly. The raw data has 50 attributes and 11618 rows in total.</p>
 <pre><code>## [1] 11618    50</code></pre>
+<p><strong>Possible issues</strong> with the data: We know that the database is compiled from various sources from organizations and agencies, so there might be concerns about the consistency of information. Also, since the we are looking at data over a 30-year range, so there might also be concerns about the ability of collecting and storing data varying over the time. Other than that, since it is hard to collect data from around the world and some of the attributes in the database like number of people affected by a disaster and total damages caused by a disaster are hard to asses, thus the accuracy of such attributes may be a potential issue as well.</p>
 <p>Here is a brief introduction to the attributes of the data set copied from the source website. The attributes discussed below do not match exactly with the raw data we get but covered the majority. For simplicity, some detailed information was deleted and can be accessed at <a href="https://public.emdat.be/about" class="uri">https://public.emdat.be/about</a>.</p>
 <table style="width:92%;">
 <colgroup>
