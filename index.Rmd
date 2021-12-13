@@ -1,6 +1,6 @@
 --- 
 title: "Exploratory Data Analysis and Visualization on Natural Disaster Dataset"
-author: "Yihao Gao"
+author: "Final Project Group27"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 ---
@@ -13,4 +13,4 @@ Given that many unprecedented natural disasters like violent flood and storm hap
 
 *2. Over time, how do the patterns change and how do they help people prepare for future disasters?*
 
-*3. How to define the level of damage for a disaster and could we give an assessment of the vulnerability of different regions against disasters?*
+*3. Study the damage of a disaster and how does the damage a disaster of different types brought to a region differ over time?*

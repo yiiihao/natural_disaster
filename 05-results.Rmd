@@ -204,3 +204,88 @@ natural %>% filter(Type=='Flood') %>% inner_join(s, by='Origin') %>% group_by(Co
 ```
 
 And for different continents, the biggest disaster origin is the same, which is "Heavy Rain". We also see a great amount of missing information as well. 
+
+
+### Total Deaths
+We want to study the severeness of a natural disaster by its consequences. For evaluating people affected by the disaster, we choose Total_Deaths, and Total_Affected as representations. In terms of the economic consequences, since the money value estimated for damages are over a 30-year time range where money has different values in different periods, we will directly use the column Total_Damages_Adjusted from the data source which takes into consideration of this point and adjusted the value to the same level. From chapter 04, we saw that data concerning the consequences have rather high percentage of missing values, thus we will only use those instances with these attributes for this section. We understand that the result might cause bias because of potential missing patterns.
+
+The most concerning consequence is the number of people dead in a natural disaster. Select instances where attribute Total_Deaths is not missing and take a look at the mean deaths of different subtype of disasters in three time periods 1990-2020,2020-2010,2010-2020. Note that Tsunami has mean deaths number 3138,10346 for 2010-2020 and 2000-2010, and drought has mean deaths 3360 for 2010-2020, greatly higher than other values; to avoid the x range being too large and not beign able to see the remaining values, we give x axis a limit value range.
+
+```{r}
+death <- natural %>% 
+  filter(is.na(Total_Deaths)==FALSE)
+death$Subtype = ifelse(is.na(death$Subtype),death$Type,death$Subtype)
+death$Total_Deaths <- as.numeric(death$Total_Deaths)
+death$Start_Year <- as.numeric(death$Start_Year)
+# add period
+death <- death %>% mutate(period = case_when(death$Start_Year<2000~"1990-2000",
+                                   (death$Start_Year<2010 & death$Start_Year>=2000)~"2000-2010",
+                                   (death$Start_Year<=2020 & death$Start_Year>=2010)~"2010-2020"))
+death$period <- factor(death$period, levels = c("1990-2000","2000-2010","2010-2020"))
+death_group<- death %>% 
+  group_by(Subtype,period) %>% 
+  summarise(mean_deaths=mean(Total_Deaths))
+  #arrange(desc(sum(mean_deaths)))
+#death_group
+ggplot(death_group, 
+       aes(x = mean_deaths, y = fct_reorder(Subtype, mean_deaths),color=period)) +
+  geom_point() +
+  ggtitle("Mean deaths for subtypes of 3 time periods ") +
+  ylab("Subtype") +
+  xlim(0, 1500) +
+  annotate(geom = "text", x =1500, y = "Drought", 
+    label = "3360", color="red",size=2.5) +
+  annotate(geom = "text", x =1450, y = "Tsunami", 
+    label = "3138,10346", color="red",size=2.5) +
+  theme_linedraw()
+```
+From the above plot, we could easily see a pattern that 1990-2000 period mean deaths value is larger than 2000-2010 and 2010-2020 in several subtypes of disaster including flash flood, riverine flood, coastal flood, epidemic and tropical cyclone. We infer that this might result from the improvements of human techniques in fields like water conservancy projects as well as improvements of the speed and ability to evacuate so that more lives could be saved. However in the graph, we could also see the reverse order like in subtype Tsunami, ground movement, heat wave(earthquake), one possible explanation could be that these disasters are usually hard to predict and control, and the rapid increase in population over the time might lead to more deaths on average.
+
+
+### Economic Damages
+Next, we look at the total damage caused by different natural disasters. To better see the general distribution of the damage, we only used 90% of the data, and we sort the data by the mean value of total damage of each subtype. In the mean time, we also split the data into three time periods to see if there is any trend over the time.
+```{r}
+damage <- natural %>% 
+  filter(is.na(Total_Damages_Adjusted)==FALSE)
+damage$Subtype = ifelse(is.na(damage$Subtype),damage$Type,damage$Subtype)
+damage$Total_Damages_Adjusted <- as.numeric(damage$Total_Damages_Adjusted)
+# add period
+damage <- damage %>% mutate(period = case_when(damage$Start_Year<2000~"1990-2000",
+                                   (damage$Start_Year<2010 & damage$Start_Year>=2000)~"2000-2010",
+                                   (damage$Start_Year<=2020 & damage$Start_Year>=2010)~"2010-2020"))
+damage$period <- factor(damage$period, levels = c("1990-2000","2000-2010","2010-2020"))
+
+damage <- damage %>% arrange(Total_Damages_Adjusted)
+bound <- floor(dim(damage)[1]*0.9)
+damage_bound <- damage[1:bound,]
+damage_order <- damage %>% group_by(Subtype) %>%
+  summarise(mean_damage=mean(Total_Damages_Adjusted))%>%
+  arrange(desc(mean_damage))
+damage_bound$Subtype <-factor(damage_bound$Subtype,levels = damage_order$Subtype)
+
+ggplot(data=damage_bound,aes(Total_Damages_Adjusted,period)) + 
+  geom_boxplot()+ 
+  facet_wrap(~Subtype) +
+  ggtitle("Boxplot of Total_Damages_Adjusted faceting on Subtype") +
+  theme(axis.text.x = element_text(angle = 45))
+```
+From the facet plot, we see that Tsunami, severe winter condition, and ground movement are the top three disasters which caused the most economic damages. In most subtypes of disasters, we see many outliers which is easy to understand since there are always severe conditions happening with extreme weather or special cnoditions that might lead to very large damage. In subtypes like mudslide, flood, forest fire, and drought, we see a right shift trend over the three time periods. Considering the previous results, we infer that this might results from more frequently extreme weather occurring around the world that cused more severe natural disasters and consequently more damages. Of course, not all subtyles of disasters have such shift, many subtypes share a similar distribution of damages over the time. 
+
+### Flood and Storm deaths by region
+
+From previous section, we saw two types of most frequent natural disasters are storms and floods. Here, we would like to visulize the number of deaths each disaster caused in differnet regions.
+```{r}
+library(ggpubr)
+com <- natural %>% 
+  filter(is.na(Total_Deaths)==FALSE & is.na(Total_Damages_Adjusted)==FALSE & (natural$Type == 'Storm' | natural$Type == 'Flood'))
+com$Subtype <- ifelse(is.na(com$Subtype),com$Type,com$Subtype)
+com <- com[,c('Type','Subtype','Continent','Region','Start_Year','Total_Deaths','Total_Damages_Adjusted')]
+com$Total_Damages_Adjusted <- as.numeric(com$Total_Damages_Adjusted)
+com$Total_Deaths <- as.numeric(com$Total_Deaths)
+p1<-ggplot(com[com$Subtype=='Flood'&com$Total_Deaths<1000,], aes(y=reorder(Region,Total_Deaths,mean),x =Total_Deaths)) + geom_density_ridges() +ylab("Reigion") +ggtitle("Total deaths caused by flood")
+p2<-ggplot(com[com$Subtype=='Storm',], aes(y=reorder(Region,Total_Deaths,mean),x =Total_Deaths)) + geom_density_ridges()+ylab("Reigion") +ggtitle("Total deaths caused by storm")
+figure <- ggarrange(p1, p2,
+                    ncol = 1, nrow =2 )
+figure
+```
+We see from the first graph that flood causes a larger average number of deaths in Asia and Africa, and there are some fluctuates in these regions when total deaths is over 100, while in most America and European regions, the distribution are alike, densely distributed close to 0 and then the density decreases. Similar situation appears in the second graph. Asian regions are more fragile to storms and have larger average number of deaths for storms, but the overall distribution is still pretty identical except for that of Southern Asia where we see three peaks in the ridgeline plot.

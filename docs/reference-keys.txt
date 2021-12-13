@@ -10,5 +10,8 @@ time
 region
 country-and-time
 flood-and-storm
+total-deaths
+economic-damages
+flood-and-storm-deaths-by-region
 interactive-component
 conclusion

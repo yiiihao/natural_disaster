@@ -21,7 +21,7 @@
   
   
 
-<meta name="author" content="Yihao Gao" />
+<meta name="author" content="Final Project Group27" />
 
 
 <meta name="date" content="2021-12-13" />
@@ -88,6 +88,9 @@
 <li class="chapter" data-level="5.0.2" data-path="results.html"><a href="results.html#region"><i class="fa fa-check"></i><b>5.0.2</b> Region</a></li>
 <li class="chapter" data-level="5.0.3" data-path="results.html"><a href="results.html#country-and-time"><i class="fa fa-check"></i><b>5.0.3</b> Country and Time</a></li>
 <li class="chapter" data-level="5.0.4" data-path="results.html"><a href="results.html#flood-and-storm"><i class="fa fa-check"></i><b>5.0.4</b> Flood and Storm</a></li>
+<li class="chapter" data-level="5.0.5" data-path="results.html"><a href="results.html#total-deaths"><i class="fa fa-check"></i><b>5.0.5</b> Total Deaths</a></li>
+<li class="chapter" data-level="5.0.6" data-path="results.html"><a href="results.html#economic-damages"><i class="fa fa-check"></i><b>5.0.6</b> Economic Damages</a></li>
+<li class="chapter" data-level="5.0.7" data-path="results.html"><a href="results.html#flood-and-storm-deaths-by-region"><i class="fa fa-check"></i><b>5.0.7</b> Flood and Storm deaths by region</a></li>
 </ul></li>
 <li class="chapter" data-level="6" data-path="interactive-component.html"><a href="interactive-component.html"><i class="fa fa-check"></i><b>6</b> Interactive component</a></li>
 <li class="chapter" data-level="7" data-path="conclusion.html"><a href="conclusion.html"><i class="fa fa-check"></i><b>7</b> Conclusion</a></li>
@@ -115,7 +118,7 @@
 <div id="missing-percentage-of-entire-data-set" class="section level3" number="4.0.1">
 <h3><span class="header-section-number">4.0.1</span> Missing percentage of entire data set</h3>
 <p>Plot the missing percentage of columns and sort them decreasingly.
-<img src="finalproj_files/figure-html/unnamed-chunk-8-1.png" width="672" />
+<img src="finalproj_files/figure-html/unnamed-chunk-9-1.png" width="672" />
 We see that there are 14 columns that have more than 50% missing values, 9 columns that have less than 40% missing values and 10 columns that are complete. We will look into some them and briefly discuss the patterns and potential reasons behind the scene. We will also continue cleaning the data in the process.</p>
 <p>Import function plot_patterns(df, percent = TRUE) from the .R file.</p>
 <p>Since the data set is quite large, if we examine the missing patterns using the whole set, it is hard to view the patterns in a graph, so we divided the data into subsets and study the missing patterns separately based on the categories discussed in the previous chapter.</p>
@@ -123,14 +126,14 @@ We see that there are 14 columns that have more than 50% missing values, 9 colum
 <div id="categorization-missing-patterns" class="section level3" number="4.0.2">
 <h3><span class="header-section-number">4.0.2</span> Categorization missing patterns</h3>
 <p>Column 2-4 describes the categorization of a natural disaster. Plot the missing patterns for these four attributes. Here, we see that every natural disaster has attribute Type and Subgroup, most have attribute Subtype and few has Subsubtype. From the righthandside bar plot, we see that more than 75% of the natural disasters has a three-layer categorization, and only around 10% has four-layer categorization marked as complete cases.<br />
-<img src="finalproj_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<img src="finalproj_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 </div>
 <div id="impact-data-missing-patterns" class="section level3" number="4.0.3">
 <h3><span class="header-section-number">4.0.3</span> Impact data missing patterns</h3>
 <p>Column 18-23 describes human impact and economic impact of a natural disaster which will help us study the consequences of different disasters happening in different places. Here, we see that No_Homeless and No_Injured columns have the most missing value percentage around 75%, and the remaining three columns have less than 40% missing values. Shown in the pattern plot, there are few complete cases. It is understandable that such data is hard to collect and is always subject to change over the time.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<p>Column 29-32 describes economic impact of a natural disaster which also helps us study the consequences of disasters. Here, we see that all four columns have rather high missing percentage. Shown in the pattern plot, there are few complete cases. It is understandable that such data is hard to collect and is always subject to change over the time.</p>
 <p><img src="finalproj_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p>Column 29-32 describes economic impact of a natural disaster which also helps us study the consequences of disasters. Here, we see that all four columns have rather high missing percentage. Shown in the pattern plot, there are few complete cases. It is understandable that such data is hard to collect and is always subject to change over the time.</p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 
 </div>
 </div>
