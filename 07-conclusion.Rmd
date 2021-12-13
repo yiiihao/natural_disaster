@@ -1,2 +1,3 @@
 # Conclusion
 
+This project aims to explore time/region trend of natural disasters, and its related influences. One of the limitations of our projects is that we study different disasters independently. In reality, there maybe interactions of hazards that may cause further impacts have further implications. For this project, we were not able to cover this topic in details. One of the lessons we learned is that the amount of data, or potential exploration areas can be overwhelming and vast, but it's crucial to put structure in analyses and balance efforts on priorities.

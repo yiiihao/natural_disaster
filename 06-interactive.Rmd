@@ -1,3 +1,5 @@
 # Interactive component
 
-Shiny app can be accessed via this link: https://yuhw0516.shinyapps.io/interactive/
+Shiny app can be accessed via this link: https://yuhw0516.shinyapps.io/interactive/ 
+
+Instructions: Natural disaster occurrences and related influences are displayed on the world map on the right side of the dashboard. User can hover over areas on the map to access detailed information. On the left side of the dashboard, there are two selection/filtering options, user can select time period and type of natural disasters they would like to investigate on. The interactive component will then display data accordingly.
