@@ -6,5 +6,9 @@ missing-percentage-of-entire-data-set
 categorization-missing-patterns
 impact-data-missing-patterns
 results
+time
+region
+country-and-time
+flood-and-storm
 interactive-component
 conclusion

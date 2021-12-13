@@ -40,16 +40,6 @@ categorization <- natural[,2:5]
 plot_patterns(categorization, percent = TRUE)
 ```
 
-```{r}
-ggplot(cat_table,aes(x=fct_reorder(Type,-percent), y=percent)) +
-  geom_bar(stat="identity") +
-  theme(panel.grid.major.x = element_blank(),
-    panel.grid.minor.x = element_blank()) +
-  theme(axis.text.x = element_text(angle = 90,hjust = 1)) +
-  labs(y="percentage",x="Type of disaster", title = "Ranking of Type of disaster")
-
-```
-
 ### Impact data missing patterns
 
 Column 18-23 describes human impact and economic impact of a natural disaster which will help us study the consequences of different disasters happening in different places. Here, we see that No_Homeless and No_Injured columns have the most missing value percentage around 75%, and the remaining three columns have less than 40% missing values. Shown in the pattern plot, there are few complete cases. It is understandable that such data is hard to collect and is always subject to change over the time. 

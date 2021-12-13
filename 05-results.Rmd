@@ -1,1 +1,206 @@
 # Results
+
+
+```{r}
+library(ggplot2)
+library(readxl)
+library(ggridges)
+library(stringr)
+library(viridis)
+library(tidyverse)
+```
+```{r}
+col_name <- c("No",	"Year",	"Seq",	"Glide",	"Group",	"Subgroup",	 "Type", "Subtype",	"Subsubtype",	"Name",	"Country", "ISO",	"Region", "Continent",	"Location",	"Origin",	"Associated_Dis",	"Associated_Dis2","Response","Appeal","Declaration",	"Aid","DM_Value","DM_Scale","Latitude","Longitude","Local_Time","River_Basin","Start_Year","Start_Month","Start_Day","End_Year", "End_Month",	"End_Day", "Total_Deaths","No_Injured",	"No_Affected",	"No_Homeless",	"Total_Affected",	"Reconstruction_Costs", "Reconstruction_Costs_Adjusted", "Insured_Damages",	"Insured_Damages_Adjusted",	"Total_Damages",	"Total_Damages_Adjusted",	"CPI",	"Adm_Level", "Admin1_Code",	"Admin2_Code",	"Geo_Locations")
+rawdata <- read_excel("natural_disaster.xlsx", skip = 6,col_names = FALSE) 
+colnames(rawdata) <- col_name
+rawdata <- rawdata %>% slice(2:n())
+natural <- rawdata
+natural$Total_Affected = as.integer(natural$Total_Affected)
+natural$Total_Damages =as.integer(natural$Total_Damages)
+natural$Total_Deaths = as.integer(natural$Total_Deaths)
+natural$No_Injured = as.integer(natural$No_Injured)
+natural$Year = as.integer(natural$Year)
+```
+
+### Time 
+```{r}
+natural %>% group_by(Year) %>% summarise(Occurences=n()) %>% ggplot(aes(x = Year, y = Occurences)) +
+  geom_line()+
+  ggtitle("Natural Disaster Occurences by Year")
+```
+
+We want to firstly understand time pattern of natural disasters. We are only given data from 1990 to 2020, so that would be our time focus. The above graph provides a macro look on number of natural disasters over this period of time. Note that we are not studying disaster effects on different countries/region for this part. As it is seen on the above graph, the total number of natural disasters reaches its valley around year 1991, and reaches the peak around 2000, and the number is stable and gradually decreasing from 2000 to present days.
+
+```{r}
+natural %>% group_by(Subgroup,Year) %>% summarise(Occurences=n()) %>% ggplot(aes(x = Year, y = Occurences)) +
+  geom_line(aes(color=Subgroup))+
+  ggtitle("Natural Disaster Occurences by Subgroup by Year")
+```
+
+Then we want to go a level deeper to investigate how different subgroup of natural disasters change over time. As seen in the above graph, different subgroups of disaster does not necessarily follows the macro trend analyzed above. Among all of them, hydrological, meterological and biological disasters are the top three contributors to the total numeber of disasters. Hydrological disasters can sometime account for half of the disasters recorded. The number of those subgroups of disasters slowly increase from 1990 to around 2005, and the number remains stable/ slightly decreases from 2005 to 2020. The number of the rest of the two subgroups disasters remain stable from 1990 to 2020. 
+
+```{r}
+natural %>% group_by(Type,Year) %>% summarise(Occurences=n()) %>% ggplot(aes(x = Year, y = Occurences)) +
+  geom_line(aes(color=Type))+
+  ggtitle("Natural Disaster Occurences by Type by Year")
+```
+```{r}
+natural %>% filter(Subgroup=='Hydrological') %>% group_by(Subgroup,Type)%>% summarise(Occurences=n()) %>% arrange(desc(Occurences)) %>% head(10L)
+```
+```{r}
+natural %>% filter(Subgroup=='Meteorological') %>% group_by(Subgroup,Type)%>% summarise(Occurences=n()) %>% arrange(desc(Occurences)) %>% head(10L)
+```
+
+Next, we want to analyze time trend for different types of disasters over the years. Flood and storm are two types of nartual diasters that occur the mostly frequently. Their occurences are much higher the others as shown on the above graph. By understanding type composition for different subgroups, we see that flood is the main contributor for hydrological disasters(around 90%), and storm is the main contributor for meteorological disasters(around 85%). 
+
+### Region
+```{r}
+natural %>% group_by(Continent) %>% summarise(Occurences=n()) %>% ggplot(aes(x = Occurences, y = reorder(Continent, Occurences))) +
+  geom_point(size = 3) +  
+  theme_bw() +
+  theme(
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_line(colour = "grey60", linetype = "dashed")
+  ) +xlab('Occurences') + xlim(100,5200) + ylab('Continent')+ggtitle("Natural Disaster Occurences ranking by Continent (1990-2020)")
+```
+
+For this part of the analysis, we want to study natural disaster behaviors for different regions(continent/Country). We see from above chart that, Asia has the most number of natural disasters. America and Africa are in the 2rd and 3nd place, and their natural disaster occurrences are around half of that of Asia. 
+
+```{r}
+natural %>% group_by(Continent,Type) %>% summarise(Occurences=n()) %>% ggplot(aes(x = Occurences, y = reorder(Continent, Occurences), color=Type)) +
+  geom_point(size = 3) +  
+  theme_bw() +
+  theme(
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_line(colour = "grey60", linetype = "dashed")
+  ) +xlab('Occurences') + xlim(0,2000)+ylab('Continent')+ggtitle("Natural Disaster Occurences ranking by Continent (1990-2021)")
+```
+
+Then we look at the distribution of types of disasters for different continents. Flood and storm are top 2 most frequent disasters for all continents except Africa, and flood and storm occurrences surpass the other types of disasters by a great amount for all continents except Oceania (considering the total number of disasters is relatively small). For Asia, flood occurrences exceeds storm occurrences by a relatively significant amount. For Americas and Europe, flood occurrences and storm occurrences are closer. But we see a higher number of storms than floods in America. For Africa, Epidemic is the second highest types of natural disasters. This maybe due to its relatively weak economy and extreme weather conditions. 
+
+```{r}
+natural %>% group_by(Country) %>% summarise(Occurences=n()) %>% arrange(desc(Occurences)) %>% head(30L) %>% ggplot(aes(x = Occurences, y = reorder(Country, Occurences))) +
+  geom_point(size = 3) +  
+  theme_bw() +
+  theme(
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_line(colour = "grey60", linetype = "dashed")
+  ) +xlab('Occurences') + ylab('Country')+ggtitle("Top 30 Country with Most Natural Disaster Occurences (1990-2021)")
+```
+
+As the next step, we want to look at natural disasters level by different countries. We see that the top countries with the greatest number of natural disasters are China, USA, India, Philippines, and Indonesia, with majority of these countries residing in Asia. China, USA, and India are among the countries with the greatest areas. And Indonesia and Philippines have much smaller area size than the other 3, although their natural disaster occurrences are comparable with the other 3. Besides the top 5 countries, as we further go down the list from 5 to 10, most of them are Asian countries as we see on the graph. 
+
+```{r}
+df <- natural %>% group_by(Country) %>% summarise(Occurences=n()) %>% arrange(desc(Occurences)) %>% head(30L)
+
+natural %>% inner_join(df, by='Country') %>% group_by(Country, Type) %>% summarise(Occurences=n()) %>% arrange(desc(Occurences)) %>% ggplot(aes(x = Occurences, y = reorder(Country, Occurences), color=Type)) +
+  geom_point(size = 3) +  
+  theme_bw() +
+  theme(
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_line(colour = "grey60", linetype = "dashed")
+  ) +xlab('Occurences') + ylab('Country')+ggtitle("Top 30 Country with Most Natural Disaster Occurences by Subgroup (1990-2021)")
+```
+
+Then, we want to look at natural disaster composition for different countries. Storms and floods are top contributors for all countries. We see that USA has the greatest number of storms out of all countries, and it's much larger than its other disasters. We also see that landslide is another top contributor for the top countries with the most number of disasters. 
+
+```{r}
+df <- natural %>% group_by(Country) %>% summarise(Occurences=n()) %>% arrange(desc(Occurences)) %>% head(15L)
+natural %>% inner_join(df, by='Country') %>%  group_by(Country, Year)  %>% summarise(Occurences=n()) %>% ggplot(aes(x=Occurences,y=reorder(Country, Occurences)))+
+  geom_density_ridges_gradient(scale=3) + theme_ridges()+
+  scale_y_discrete(expand = c(0.3, 0)) +
+  scale_x_continuous(expand = c(0.01, 0))+
+  labs(x="Occurences",y="Country")+
+  ggtitle("Distribution of Natural Disaster Occurences (yearly) by Country")+
+  theme(plot.title = element_text(hjust = 0.5))
+```
+
+The above graph shows the distribution annual disaster for different countries. We see that for the top 5 countries mentioned, the spread is much bigger, which means that there are more variation. For the rest of the countries, their annual disaster occurrence is more concentrated.
+
+### Country and Time
+```{r}
+df <- natural %>% group_by(Country) %>% summarise(Occurences=n()) %>% arrange(desc(Occurences)) %>% head(5L)
+natural %>% inner_join(df, by='Country') %>%  group_by(Country, Year) %>% summarise(Occurences=n()) %>% ggplot(aes(x = Year, y = Occurences)) + facet_grid(vars(Country))+
+  geom_line()+
+  ggtitle("Occurences of Natural Diasters by Subgroup by Year")
+```
+
+For this part of analysis, we want to understand if there is any time pattern of disasters for different countries. As seen in the above graph, there seems to be no significant time pattern for any of the countries on the aggregate level of disasters.
+```{r}
+df <- natural %>% group_by(Country) %>% summarise(Occurences=n()) %>% arrange(desc(Occurences)) %>% head(5L)
+natural %>% inner_join(df, by='Country') %>%  group_by(Country, Type,Year) %>% summarise(Occurences=n()) %>% ggplot(aes(x = Year, y = Occurences)) + facet_grid(rows = vars(Country),scales = "free", space = "free")+
+  geom_line(aes(color=Type))+
+  ggtitle("Occurences of Natural Diasters by Subgroup by Year")
+```
+
+We then want to understand if there is any trend for specific type of disaster for top 5 countries. We see that for China and India, flood reaches its peak around year 2005, and then decreases to pre-2005 level. Indonesia is experiencing an increasing number of flood  over time, and the number reaches the peak in year of 2020. We don't see a significant time pattern of flood for any of the countries. 
+
+### Flood and Storm
+We want to further look at two types of most frequent natural disasters: storms and floods. 
+```{r}
+natural %>% filter(Type=='Flood') %>% group_by(Subtype,Year) %>% summarise(Occurences=n()) %>% ggplot(aes(x = Year, y = Occurences)) + geom_line(aes(color=Subtype))+
+  ggtitle("Flood Occurences by Subtype by Year")
+```
+
+Firstly, we want to understand subtypes occurrences for floods. We see that Riverine flood is the most frequent subtype of flood. The fact that "NA" increases from 2015 and Riverine flood decreases from 2015 may mean that we are missing data for categorization of Riverine flood from 2015, so it may not mean that this Riverine flood decreases over time objectively. 
+
+```{r}
+u <- unique(natural %>% filter(Type=='Flood') %>% select('Origin'))
+natural$Origin = tolower(natural$Origin)
+for (i in c('haevy',"havy","hearvy",'heavu','heav','heavyy','heay','hevay','hevy')){
+natural$Origin<-gsub(i, 'heavy', natural$Origin)}
+
+natural$Origin<-gsub('rains', 'r', natural$Origin)
+natural$Origin<-gsub('rain', 'r', natural$Origin)
+natural$Origin<-gsub('r', 'rains', natural$Origin)
+```
+```{r}
+natural %>% filter(Type=='Flood') %>% group_by(Origin) %>% summarise(Occurences=n()) %>% arrange(desc(Occurences)) %>% head(15L) %>% ggplot(aes(x = reorder(Origin, desc(Occurences)), y = Occurences)) + geom_bar(stat="identity")+ylab("Occurences") + xlab("Flood Origin")+theme(axis.text.x=element_text(color = "black", size=11, angle=30, vjust=.8, hjust=0.8)) +
+  ggtitle("Flood Origin Distribution") 
+```
+
+Then we want to understand what the origin of flood. And as we see on the graph, heavy rains is the biggest contributor.
+
+```{r}
+natural %>% filter(Type=='Storm') %>% group_by(Subtype,Year) %>% summarise(Occurences=n()) %>% ggplot(aes(x = Year, y = Occurences)) + geom_line(aes(color=Subtype))+
+  ggtitle("Storm Occurences by Subtype by Year")
+```
+
+Then we analyze storm similarly. We see that tropical cyclone appear the most frequently.
+
+```{r}
+natural %>% filter(Type=='Storm') %>% subset(!is.na(Origin)) %>% group_by(Origin) %>% summarise(Occurences=n()) %>% arrange(desc(Occurences)) %>% head(15L) %>% ggplot(aes(x = reorder(Origin, desc(Occurences)), y = Occurences)) + geom_bar(stat="identity")+ylab("Occurences") + xlab("Storm Origin")+theme(axis.text.x=element_text(color = "black", size=11, angle=30, vjust=.8, hjust=0.8)) +
+  ggtitle("Storm Origin Distribution") 
+```
+
+"Heavy Rains" is also the biggest origin for storm.  
+
+```{r}
+common <- natural %>% subset(!is.na(Origin)) %>% group_by(Type,Origin) %>% summarise(Occurences=n()) %>% arrange(desc(Occurences)) %>% head(n = 20L)
+common %>% ggplot(aes(fill=Type, y=Occurences, x=reorder(Origin, desc(Occurences)))) + 
+    geom_bar(position="stack", stat="identity") +
+    scale_fill_viridis(discrete = T) +
+    ggtitle("Top Natural Disaster Origin") +
+    xlab("")+theme(axis.text.x=element_text(color = "black", size=11, angle=30, vjust=.8, hjust=0.8))
+```
+
+As we see there is an overlap of origin for different types of disasters. We want to understand what are the most common origins are, and what they cause. As we see on the above graph, different types of rain are the number one origin for floods, landslides and storms. We also see that trainsopical cyclone is the top origin for drought.
+
+```{r}
+s <- natural %>% filter(Type=='Flood') %>% group_by(Origin) %>% summarise(Occurences=n()) %>% arrange(desc(Occurences)) %>% head(15L)
+
+natural %>% filter(Type=='Flood') %>% inner_join(s, by='Origin') %>% group_by(Continent,Origin) %>% summarise(Occurences=n()) %>% ggplot(aes(x = Occurences, y = reorder(Continent, Occurences), color=Origin)) +
+  geom_point(size = 3) +  
+  theme_bw() +
+  theme(
+    panel.grid.major.x = element_blank(),
+    panel.grid.minor.x = element_blank(),
+    panel.grid.major.y = element_line(colour = "grey60", linetype = "dashed")
+  ) +xlab('Occurences') + ylab('Country')+ggtitle("Natural Disaster Occurences ranking by Continent (1990-2021)")
+```
+
+And for different continents, the biggest disaster origin is the same, which is "Heavy Rain". We also see a great amount of missing information as well. 
