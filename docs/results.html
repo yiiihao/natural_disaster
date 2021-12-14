@@ -117,18 +117,18 @@
 <h1><span class="header-section-number">Chapter 5</span> Results</h1>
 <div id="time" class="section level3" number="5.0.1">
 <h3><span class="header-section-number">5.0.1</span> Time</h3>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <p>We want to firstly understand time pattern of natural disasters. We are only given data from 1990 to 2020, so that would be our time focus. The above graph provides a macro look on number of natural disasters over this period of time. Note that we are not studying disaster effects on different countries/region for this part. As it is seen on the above graph, the total number of natural disasters reaches its valley around year 1991, and reaches the peak around 2000, and the number is stable and gradually decreasing from 2000 to present days.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <p>Then we want to go a level deeper to investigate how different subgroup of natural disasters change over time. As seen in the above graph, different subgroups of disaster does not necessarily follows the macro trend analyzed above. Among all of them, hydrological, meterological and biological disasters are the top three contributors to the total numeber of disasters. Hydrological disasters can sometime account for half of the disasters recorded. The number of those subgroups of disasters slowly increase from 1990 to around 2005, and the number remains stable/ slightly decreases from 2005 to 2020. The number of the rest of the two subgroups disasters remain stable from 1990 to 2020.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
-<pre><code>## # A tibble: 2 × 3
+<p><img src="finalproj_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<pre><code>## # A tibble: 2 x 3
 ## # Groups:   Subgroup [1]
 ##   Subgroup     Type      Occurences
 ##   &lt;chr&gt;        &lt;chr&gt;          &lt;int&gt;
 ## 1 Hydrological Flood           4324
 ## 2 Hydrological Landslide        545</code></pre>
-<pre><code>## # A tibble: 2 × 3
+<pre><code>## # A tibble: 2 x 3
 ## # Groups:   Subgroup [1]
 ##   Subgroup       Type                Occurences
 ##   &lt;chr&gt;          &lt;chr&gt;                    &lt;int&gt;
@@ -138,57 +138,55 @@
 </div>
 <div id="region" class="section level3" number="5.0.2">
 <h3><span class="header-section-number">5.0.2</span> Region</h3>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <p>For this part of the analysis, we want to study natural disaster behaviors for different regions(continent/Country). We see from above chart that, Asia has the most number of natural disasters. America and Africa are in the 2rd and 3nd place, and their natural disaster occurrences are around half of that of Asia.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <p>Then we look at the distribution of types of disasters for different continents. Flood and storm are top 2 most frequent disasters for all continents except Africa, and flood and storm occurrences surpass the other types of disasters by a great amount for all continents except Oceania (considering the total number of disasters is relatively small). For Asia, flood occurrences exceeds storm occurrences by a relatively significant amount. For Americas and Europe, flood occurrences and storm occurrences are closer. But we see a higher number of storms than floods in America. For Africa, Epidemic is the second highest types of natural disasters. This maybe due to its relatively weak economy and extreme weather conditions.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
 <p>As the next step, we want to look at natural disasters level by different countries. We see that the top countries with the greatest number of natural disasters are China, USA, India, Philippines, and Indonesia, with majority of these countries residing in Asia. China, USA, and India are among the countries with the greatest areas. And Indonesia and Philippines have much smaller area size than the other 3, although their natural disaster occurrences are comparable with the other 3. Besides the top 5 countries, as we further go down the list from 5 to 10, most of them are Asian countries as we see on the graph.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <p>Then, we want to look at natural disaster composition for different countries. Storms and floods are top contributors for all countries. We see that USA has the greatest number of storms out of all countries, and it’s much larger than its other disasters. We also see that landslide is another top contributor for the top countries with the most number of disasters.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
 <p>The above graph shows the distribution annual disaster for different countries. We see that for the top 5 countries mentioned, the spread is much bigger, which means that there are more variation. For the rest of the countries, their annual disaster occurrence is more concentrated.</p>
 </div>
 <div id="country-and-time" class="section level3" number="5.0.3">
 <h3><span class="header-section-number">5.0.3</span> Country and Time</h3>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-26-1.png" width="672" /></p>
 <p>For this part of analysis, we want to understand if there is any time pattern of disasters for different countries. As seen in the above graph, there seems to be no significant time pattern for any of the countries on the aggregate level of disasters.
-<img src="finalproj_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
+<img src="finalproj_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <p>We then want to understand if there is any trend for specific type of disaster for top 5 countries. We see that for China and India, flood reaches its peak around year 2005, and then decreases to pre-2005 level. Indonesia is experiencing an increasing number of flood over time, and the number reaches the peak in year of 2020. We don’t see a significant time pattern of flood for any of the countries.</p>
 </div>
 <div id="flood-and-storm" class="section level3" number="5.0.4">
 <h3><span class="header-section-number">5.0.4</span> Flood and Storm</h3>
 <p>We want to further look at two types of most frequent natural disasters: storms and floods.
-<img src="finalproj_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<img src="finalproj_files/figure-html/unnamed-chunk-28-1.png" width="672" /></p>
 <p>Firstly, we want to understand subtypes occurrences for floods. We see that Riverine flood is the most frequent subtype of flood. The fact that “NA” increases from 2015 and Riverine flood decreases from 2015 may mean that we are missing data for categorization of Riverine flood from 2015, so it may not mean that this Riverine flood decreases over time objectively.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
 <p>Then we want to understand what the origin of flood. And as we see on the graph, heavy rains is the biggest contributor.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
 <p>Then we analyze storm similarly. We see that tropical cyclone appear the most frequently.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 <p>“Heavy Rains” is also the biggest origin for storm.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
+<p><img src="finalproj_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 <p>As we see there is an overlap of origin for different types of disasters. We want to understand what are the most common origins are, and what they cause. As we see on the above graph, different types of rain are the number one origin for floods, landslides and storms. We also see that trainsopical cyclone is the top origin for drought.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
-<p>And for different continents, the biggest disaster origin is the same, which is “Heavy Rain”. We also see a great amount of missing information as well.</p>
 </div>
 <div id="total-deaths" class="section level3" number="5.0.5">
 <h3><span class="header-section-number">5.0.5</span> Total Deaths</h3>
-<p>We want to study the severeness of a natural disaster by its consequences. For evaluating people affected by the disaster, we choose Total_Deaths, and Total_Affected as representations. In terms of the economic consequences, since the money value estimated for damages are over a 30-year time range where money has different values in different periods, we will directly use the column Total_Damages_Adjusted from the data source which takes into consideration of this point and adjusted the value to the same level. From chapter 04, we saw that data concerning the consequences have rather high percentage of missing values, thus we will only use those instances with these attributes for this section. We understand that the result might cause bias because of potential missing patterns.</p>
+<p>We want to study the severeness of a natural disaster by its consequences. For evaluating people affected by the disaster, we choose Total_Deaths as representations. In terms of the economic consequences, since the money value estimated for damages are over a 30-year time range where money has different values in different periods, we will directly use the column Total_Damages_Adjusted from the data source which takes into consideration of this point and adjusted the value to the same level. From chapter 04, we saw that data concerning the consequences have rather high percentage of missing values, thus we will only use those instances with these attributes for this section. We understand that the result might cause bias because of potential missing patterns.</p>
 <p>The most concerning consequence is the number of people dead in a natural disaster. Select instances where attribute Total_Deaths is not missing and take a look at the mean deaths of different subtype of disasters in three time periods 1990-2020,2020-2010,2010-2020. Note that Tsunami has mean deaths number 3138,10346 for 2010-2020 and 2000-2010, and drought has mean deaths 3360 for 2010-2020, greatly higher than other values; to avoid the x range being too large and not beign able to see the remaining values, we give x axis a limit value range.</p>
-<p><img src="finalproj_files/figure-html/unnamed-chunk-36-1.png" width="672" />
+<p><img src="finalproj_files/figure-html/unnamed-chunk-34-1.png" width="672" />
 From the above plot, we could easily see a pattern that 1990-2000 period mean deaths value is larger than 2000-2010 and 2010-2020 in several subtypes of disaster including flash flood, riverine flood, coastal flood, epidemic and tropical cyclone. We infer that this might result from the improvements of human techniques in fields like water conservancy projects as well as improvements of the speed and ability to evacuate so that more lives could be saved. However in the graph, we could also see the reverse order like in subtype Tsunami, ground movement, heat wave(earthquake), one possible explanation could be that these disasters are usually hard to predict and control, and the rapid increase in population over the time might lead to more deaths on average.</p>
 </div>
 <div id="economic-damages" class="section level3" number="5.0.6">
 <h3><span class="header-section-number">5.0.6</span> Economic Damages</h3>
 <p>Next, we look at the total damage caused by different natural disasters. To better see the general distribution of the damage, we only used 90% of the data, and we sort the data by the mean value of total damage of each subtype. In the mean time, we also split the data into three time periods to see if there is any trend over the time.
-<img src="finalproj_files/figure-html/unnamed-chunk-37-1.png" width="672" />
+<img src="finalproj_files/figure-html/unnamed-chunk-35-1.png" width="672" />
 From the facet plot, we see that Tsunami, severe winter condition, and ground movement are the top three disasters which caused the most economic damages. In most subtypes of disasters, we see many outliers which is easy to understand since there are always severe conditions happening with extreme weather or special cnoditions that might lead to very large damage. In subtypes like mudslide, flood, forest fire, and drought, we see a right shift trend over the three time periods. Considering the previous results, we infer that this might results from more frequently extreme weather occurring around the world that cused more severe natural disasters and consequently more damages. Of course, not all subtyles of disasters have such shift, many subtypes share a similar distribution of damages over the time.</p>
 </div>
 <div id="flood-and-storm-deaths-by-region" class="section level3" number="5.0.7">
 <h3><span class="header-section-number">5.0.7</span> Flood and Storm deaths by region</h3>
 <p>From previous section, we saw two types of most frequent natural disasters are storms and floods. Here, we would like to visulize the number of deaths each disaster caused in differnet regions.
-<img src="finalproj_files/figure-html/unnamed-chunk-38-1.png" width="672" />
+<img src="finalproj_files/figure-html/unnamed-chunk-36-1.png" width="672" />
 We see from the first graph that flood causes a larger average number of deaths in Asia and Africa, and there are some fluctuates in these regions when total deaths is over 100, while in most America and European regions, the distribution are alike, densely distributed close to 0 and then the density decreases. Similar situation appears in the second graph. Asian regions are more fragile to storms and have larger average number of deaths for storms, but the overall distribution is still pretty identical except for that of Southern Asia where we see three peaks in the ridgeline plot.</p>
 
 </div>
